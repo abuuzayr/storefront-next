@@ -1,15 +1,15 @@
-import React from "react"
+import React, { ReactNode } from "react"
 
 import { Container, Heading, Box, Text } from "@chakra-ui/react"
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer"
-import { INLINES, BLOCKS, MARKS } from "@contentful/rich-text-types"
+import { INLINES, BLOCKS, MARKS, Document } from "@contentful/rich-text-types"
 
 import Separator from "@modules/common/components/separator"
 
-const AboutBlock = ({ text, isFirstElem }: { text: string, isFirstElem: boolean }) => {
+const AboutBlock = ({ text, isFirstElem }: { text: Document, isFirstElem: boolean }) => {
   const options = {
     renderMark: {
-      [MARKS.BOLD]: (text: string) => <b className="font-bold">{text}</b>,
+      [MARKS.BOLD]: (text: ReactNode) => <b className="font-bold">{text}</b>,
     },
     renderNode: {
       [INLINES.HYPERLINK]: (node: any, children: any) => {
