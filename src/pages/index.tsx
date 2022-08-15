@@ -3,6 +3,7 @@ import FeaturedProducts from "@modules/home/components/featured-products"
 import Hero from "@modules/common/components/hero"
 import CTA from "@modules/common/components/cta"
 import TileSection from "@modules/common/components/tile-section"
+import ImageSlider from "@modules/common/components/image-slider"
 import AboutBlock from "@modules/about/components/about-block"
 import Layout from "@modules/layout/templates"
 import { ReactElement, useEffect, useState } from "react"
@@ -48,8 +49,8 @@ const Home: NextPageWithLayout = () => {
                   return <TileSection key={cm.sys.id} data={cm.fields} />
                 case "hero":
                   return <Hero key={cm.sys.id} data={cm.fields} />
-                // case "imageSlider":
-                //   return <ImageSlider key={cm.sys.id} data={cm.fields} />
+                case "imageSlider":
+                  return <ImageSlider key={cm.sys.id} data={cm.fields} />
                 // case "tabbedProducts":
                 //   return (
                 //     <TabbedProducts
