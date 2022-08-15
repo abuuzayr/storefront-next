@@ -5,6 +5,8 @@ import CTA from "@modules/common/components/cta"
 import TileSection from "@modules/common/components/tile-section"
 import ImageSlider from "@modules/common/components/image-slider"
 import Video from "@modules/common/components/video"
+import Location from "@modules/common/components/location"
+import FaqGroup from "@modules/common/components/faq-group"
 import AboutBlock from "@modules/about/components/about-block"
 import Layout from "@modules/layout/templates"
 import { ReactElement, useEffect, useState } from "react"
@@ -64,10 +66,10 @@ const Home: NextPageWithLayout = () => {
                   return <CTA key={cm.sys.id} data={cm.fields} />
                 case "video":
                   return <Video key={cm.sys.id} data={cm.fields} />
-                // case "location":
-                //   return <Location key={cm.sys.id} data={cm.fields} />
-                // case "faqGroup":
-                //   return <FaqGroup key={cm.sys.id} data={cm.fields} />
+                case "location":
+                  return <Location key={cm.sys.id} data={cm.fields} />
+                case "faqGroup":
+                  return <FaqGroup key={cm.sys.id} data={cm.fields} />
                 default:
                   return null
               }
