@@ -5,6 +5,33 @@ import { formatAmount, useCart } from "medusa-react"
 import { useQuery } from "react-query"
 import { ProductPreviewType } from "types/global"
 import { CalculatedVariant } from "types/medusa"
+import { fetchGraphQL } from "@lib/contentful/api"
+
+const headerQuery = `
+  query HeaderQuery {
+    nav: navigationMenuCollection(where: {title: "Main" }, limit: 1) {
+      items {
+        itemsCollection {
+          items {
+            link {
+              linkTo
+              reference {
+                ...on Page {
+                  slug
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+    banner: textCollection(where: { id: "banner" }, limit: 1) {
+      items {
+        text
+      }
+    }
+  }
+`
 
 type LayoutCollection = {
   id: string
@@ -107,4 +134,17 @@ export const useFeaturedProductsQuery = () => {
   )
 
   return queryResults
+}
+
+const fetchNavbarData = async () => {
+  return await fetchGraphQL(headerQuery)
+}
+
+export const useNavbarData = () => {
+  const data = useQuery("navbar_data", fetchNavbarData, {
+    staleTime: Infinity,
+    refetchOnWindowFocus: false,
+  })
+
+  return data
 }

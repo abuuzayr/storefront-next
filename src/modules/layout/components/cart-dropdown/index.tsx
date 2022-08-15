@@ -11,6 +11,8 @@ import { formatAmount, useCart } from "medusa-react"
 import Link from "next/link"
 import { Fragment } from "react"
 import { CalculatedVariant } from "types/medusa"
+import { BiShoppingBag } from "react-icons/bi"
+import { Flex, Text } from "@chakra-ui/react"
 
 const CartDropdown = () => {
   const { cart, totalItems } = useCart()
@@ -22,7 +24,15 @@ const CartDropdown = () => {
     <div className="h-full z-50" onMouseEnter={open} onMouseLeave={close}>
       <Popover className="relative h-full">
         <Link href="/cart" passHref>
-          <Popover.Button className="h-full">{`My Bag (${totalItems})`}</Popover.Button>
+          <Popover.Button className="h-full">
+            <Flex alignItems="center" style={{ padding: "0 16px" }}>
+              <BiShoppingBag
+                size={24}
+                style={{ color: "var(--chakra-colors-brand-400)" }}
+              />
+              {/* <Text fontSize="xs">{`(${totalItems})`}</Text> */}
+            </Flex>
+          </Popover.Button>
         </Link>
         <Transition
           show={state}

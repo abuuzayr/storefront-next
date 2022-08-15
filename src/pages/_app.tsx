@@ -7,6 +7,34 @@ import { CartProvider, MedusaProvider } from "medusa-react"
 import { Hydrate } from "react-query"
 import "styles/globals.css"
 import { AppPropsWithLayout } from "types/global"
+import { ChakraProvider, extendTheme } from "@chakra-ui/react"
+
+const customTheme = {
+  colors: {
+    brand: {
+      400: "#E02784",
+    },
+  },
+  fonts: {
+    heading: `Inter, sans-serif`,
+    body: `Inter, sans-serif`,
+  },
+  components: {
+    Text: {
+      baseStyle: {
+        fontSize: 14,
+      },
+    },
+    Button: {
+      baseStyle: {
+        fontSize: 14,
+        fontWeight: 400,
+      },
+    },
+  },
+}
+
+const theme = extendTheme(customTheme)
 
 function App({ Component, pageProps }: AppPropsWithLayout) {
   const getLayout = Component.getLayout ?? ((page) => page)
@@ -24,7 +52,9 @@ function App({ Component, pageProps }: AppPropsWithLayout) {
             <CartProvider>
               <StoreProvider>
                 <AccountProvider>
-                  {getLayout(<Component {...pageProps} />)}
+                  <ChakraProvider theme={theme}>
+                    {getLayout(<Component {...pageProps} />)}
+                  </ChakraProvider>
                 </AccountProvider>
               </StoreProvider>
             </CartProvider>
