@@ -6,16 +6,24 @@ import DesktopHit from "@modules/search/components/desktop-hit"
 import DesktopHits from "@modules/search/components/desktop-hits"
 import SearchBox from "@modules/search/components/search-box"
 import { InstantSearch } from "react-instantsearch-hooks-web"
+import { Button } from "@chakra-ui/react"
+import { BiSearch } from "react-icons/bi"
 
 const DesktopSearchModal = () => {
   const { state, close, open } = useToggleState()
 
   return (
     <>
-      <button onClick={open} className="flex items-center gap-x-2 h-full">
+      <Button variant="ghost" colorScheme="white" onClick={open}>
+        <BiSearch
+          size={24}
+          style={{ color: "var(--chakra-colors-brand-400)" }}
+        />
+      </Button>
+      {/* <button onClick={open} className="flex items-center gap-x-2 h-full">
         <Search />
         Search
-      </button>
+      </button> */}
 
       <Modal isOpen={state} close={close} size="large">
         <Modal.Body>

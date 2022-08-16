@@ -8,7 +8,7 @@ import Link from "next/link"
 import { useRouter } from "next/router"
 import { useEffect, useState } from "react"
 import { useNavbarData } from "@lib/hooks/use-layout-data"
-import { BiSearch, BiHeart, BiChevronDown } from "react-icons/bi"
+import { BiHeart, BiChevronDown } from "react-icons/bi"
 import {
   Text,
   Heading,
@@ -95,12 +95,7 @@ const Nav = () => {
                 justifyContent="end"
               >
                 <GridItem>
-                  <Button variant="ghost" colorScheme="white">
-                    <BiSearch
-                      size={24}
-                      style={{ color: "var(--chakra-colors-brand-400)" }}
-                    />
-                  </Button>
+                  <DesktopSearchModal />
                 </GridItem>
                 <GridItem>
                   <Button variant="ghost" colorScheme="white">
