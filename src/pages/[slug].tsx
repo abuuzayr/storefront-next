@@ -17,6 +17,7 @@ import Video from "@modules/common/components/video"
 import Location from "@modules/common/components/location"
 import FaqGroup from "@modules/common/components/faq-group"
 import AboutBlock from "@modules/about/components/about-block"
+import TabbedProducts from "@modules/common/components/tabbed-products"
 
 interface Params extends ParsedUrlQuery {
   slug: string
@@ -84,14 +85,13 @@ const PageByHandle: NextPageWithLayout<PrefetchedPageProps> = ({ notFound }) => 
                 return <Hero key={cm.sys.id} data={cm.fields} />
               case "imageSlider":
                 return <ImageSlider key={cm.sys.id} data={cm.fields} />
-              // case "tabbedProducts":
-              //   return (
-              //     <TabbedProducts
-              //       key={cm.sys.id}
-              //       data={cm.fields}
-              //       products={data.products}
-              //     />
-              //   )
+              case "tabbedProducts":
+                return (
+                  <TabbedProducts
+                    key={cm.sys.id}
+                    data={cm.fields}
+                  />
+                )
               case "cta":
                 return <CTA key={cm.sys.id} data={cm.fields} />
               case "video":
