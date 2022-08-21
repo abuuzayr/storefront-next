@@ -123,7 +123,7 @@ const TabbedProducts = ({ data }: { data: any }) => {
                   }
                   return (
                     <Link
-                      href={`/product/${product.handle}`}
+                      href={`/products/${product.handle}`}
                       key={product.handle}
                       passHref
                     >
