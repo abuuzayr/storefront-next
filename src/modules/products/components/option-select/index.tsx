@@ -1,6 +1,7 @@
+import { Button, Text } from "@chakra-ui/react"
 import { onlyUnique } from "@lib/util/only-unique"
 import { ProductOption } from "@medusajs/medusa"
-import clsx from "clsx"
+import { Variant } from "types/medusa"
 import React from "react"
 
 type OptionSelectProps = {
@@ -8,6 +9,7 @@ type OptionSelectProps = {
   current: string
   updateOption: (option: Record<string, string>) => void
   title: string
+  variants: Variant[]
 }
 
 const OptionSelect: React.FC<OptionSelectProps> = ({
@@ -15,28 +17,42 @@ const OptionSelect: React.FC<OptionSelectProps> = ({
   current,
   updateOption,
   title,
+  variants
 }) => {
   const filteredOptions = option.values.map((v) => v.value).filter(onlyUnique)
 
   return (
-    <div className="flex flex-col gap-y-3">
-      <span className="text-base-semi">Select {title}</span>
-      <div className="grid grid-cols-3 lg:grid-cols-6 gap-2">
-        {filteredOptions.map((v) => {
-          return (
-            <button
-              onClick={() => updateOption({ [option.id]: v })}
-              key={v}
-              className={clsx(
-                "border-gray-200 border text-xsmall-regular h-[50px] transition-all duration-200",
-                { "border-gray-900": v === current }
-              )}
-            >
-              {v}
-            </button>
-          )
-        })}
-      </div>
+    <div className="flex gap-x-3">
+      {filteredOptions.map((v) => {
+        const variantId: string = option.values.find((val) => val.value === v)![
+          "variant_id"
+        ]
+        const variant = variants.find((variant) => variant.id === variantId)
+
+        return (
+          <Button
+            onClick={() => updateOption({ [option.id]: v })}
+            key={v}
+            color={v === current ? "white" : "gray.700"}
+            borderColor={v === current ? "brand.400" : "gray.400"}
+            borderWidth={1}
+            borderRadius={5}
+            borderStyle="solid"
+            bgColor={v === current ? "brand.400" : "white"}
+            px={5}
+            py={2}
+            display="block"
+            height="initial"
+            _hover={{
+              bgColor: v === current ? "white" : "gray.300",
+              color: v === current ? "brand.400" : "gray.700",
+            }}
+          >
+            <Text fontSize="lg">{variant?.title}</Text>
+            {variant?.weight && <Text>{variant?.weight}g / 每支</Text>}
+          </Button>
+        )
+      })}
     </div>
   )
 }
