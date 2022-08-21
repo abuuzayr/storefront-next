@@ -8,12 +8,14 @@ import {
   AccordionItem,
   AccordionButton,
   AccordionPanel,
-  Link as CLink
+  Link as CLink,
+  Alert,
+  AlertTitle,
+  AlertDescription,
 } from "@chakra-ui/react"
 import { useProductActions } from "@lib/context/product-context"
 import useProductPrice from "@lib/hooks/use-product-price"
 import OptionSelect from "@modules/products/components/option-select"
-import clsx from "clsx"
 import Link from "next/link"
 import React, { ReactNode, useEffect, useMemo, useState } from "react"
 import { Product } from "types/medusa"
@@ -35,7 +37,7 @@ const renderOptions = {
     [INLINES.HYPERLINK]: (node: any, children: any) => {
       const { uri } = node.data
       return (
-        <CLink href={uri} textDecoration="underline" color="brand.400">
+        <CLink href={uri} color="brand.400">
           {children}
         </CLink>
       )
@@ -176,35 +178,55 @@ const ProductActions: React.FC<ProductActionsProps> = ({ product }) => {
       </Text>
 
       {contentfulData && (
-        <Accordion my={10} allowToggle>
-          {contentfulData.fullProductDescription.map((desc: any) => (
-            <AccordionItem border="none" key={desc.sys.id}>
-              {({ isExpanded }) => (
-                <>
-                  <AccordionButton pl={0}>
-                    {isExpanded ? (
-                      <FaArrowUp size={14} style={{ color: "gray" }} />
-                    ) : (
-                      <FaArrowDown size={14} style={{ color: "gray" }} />
-                    )}
-                    <Heading as="h3" color="gray" fontSize={14} ml={4}>
-                      {desc.fields.title}
-                    </Heading>
-                  </AccordionButton>
-                  <AccordionPanel pl={7} py={5}>
-                    <Heading as="h4" fontSize={14} color="brand.400" pb={4}>
-                      {desc.fields.subtitle}
-                    </Heading>
-                    {documentToReactComponents(
-                      desc.fields.richText,
-                      renderOptions
-                    )}
-                  </AccordionPanel>
-                </>
-              )}
-            </AccordionItem>
-          ))}
-        </Accordion>
+        <>
+          {contentfulData.discountText && (
+            <Alert
+              status="error"
+              variant="subtle"
+              flexDirection="column"
+              p={6}
+              alignItems="start"
+              bg="rgba(224, 39, 132, 0.04)"
+              my={6}
+            >
+              <AlertTitle mb={1} fontSize="md" color="brand.400">
+                {contentfulData.discountText.fields.title}
+              </AlertTitle>
+              <AlertDescription maxWidth="sm" fontSize="md">
+                {contentfulData.discountText.fields.text}
+              </AlertDescription>
+            </Alert>
+          )}
+          <Accordion my={2} allowToggle defaultIndex={0}>
+            {contentfulData.fullProductDescription.map((desc: any) => (
+              <AccordionItem border="none" key={desc.sys.id}>
+                {({ isExpanded }) => (
+                  <>
+                    <AccordionButton pl={0}>
+                      {isExpanded ? (
+                        <FaArrowUp size={14} style={{ color: "gray" }} />
+                      ) : (
+                        <FaArrowDown size={14} style={{ color: "gray" }} />
+                      )}
+                      <Heading as="h3" color="gray" fontSize={14} ml={4}>
+                        {desc.fields.title}
+                      </Heading>
+                    </AccordionButton>
+                    <AccordionPanel pl={7} py={5}>
+                      <Heading as="h4" fontSize={14} color="brand.400" pb={4}>
+                        {desc.fields.subtitle}
+                      </Heading>
+                      {documentToReactComponents(
+                        desc.fields.richText,
+                        renderOptions
+                      )}
+                    </AccordionPanel>
+                  </>
+                )}
+              </AccordionItem>
+            ))}
+          </Accordion>
+        </>
       )}
     </div>
   )
