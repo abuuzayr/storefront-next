@@ -1,6 +1,6 @@
 import { medusaClient } from "@lib/config"
 import { IS_BROWSER } from "@lib/constants"
-import { getCollectionIds } from "@lib/util/get-collection-ids"
+import { getCollections } from "@lib/util/get-collections"
 import CollectionTemplate from "@modules/collections/templates"
 import Head from "@modules/common/components/head"
 import Layout from "@modules/layout/templates"
@@ -13,14 +13,18 @@ import { dehydrate, QueryClient, useQuery } from "react-query"
 import { NextPageWithLayout, PrefetchedPageProps } from "../../types/global"
 
 interface Params extends ParsedUrlQuery {
-  id: string
+  handle: string
 }
 
-const fetchCollection = async (id: string) => {
-  return await medusaClient.collections.retrieve(id).then(({ collection }) => ({
-    id: collection.id,
-    title: collection.title,
-  }))
+const fetchCollection = async (handle: string) => {
+  const collections = await getCollections()
+  const collection = collections.find(collection => collection.handle === handle)
+  if (collection) {
+    return await medusaClient.collections.retrieve(collection['id']).then(({ collection }) => ({
+      id: collection.id,
+      title: collection.title,
+    }))
+  }
 }
 
 export const fetchCollectionProducts = async ({
@@ -49,11 +53,11 @@ const CollectionPage: NextPageWithLayout<PrefetchedPageProps> = ({
   notFound,
 }) => {
   const { query, isFallback, replace } = useRouter()
-  const id = typeof query.id === "string" ? query.id : ""
+  const handle = typeof query.handle === "string" ? query.handle : ""
 
   const { data, isError, isSuccess, isLoading } = useQuery(
-    ["get_collection", id],
-    () => fetchCollection(id)
+    ["get_collection", handle],
+    () => fetchCollection(handle)
   )
 
   if (notFound) {
@@ -89,33 +93,40 @@ CollectionPage.getLayout = (page: ReactElement) => {
 }
 
 export const getStaticPaths: GetStaticPaths<Params> = async () => {
-  const ids = await getCollectionIds()
+  const handles = (await getCollections()).map(({ handle }) => handle)
 
   return {
-    paths: ids.map((id) => ({ params: { id } })),
+    paths: handles.map((handle) => ({ params: { handle } })),
     fallback: true,
   }
 }
 
 export const getStaticProps: GetStaticProps = async (context) => {
   const queryClient = new QueryClient()
-  const id = context.params?.id as string
+  const handle = context.params?.handle as string
 
-  await queryClient.prefetchQuery(["get_collection", id], () =>
-    fetchCollection(id)
+  await queryClient.prefetchQuery(["get_collection", handle], () =>
+    fetchCollection(handle)
   )
 
-  await queryClient.prefetchInfiniteQuery(
-    ["get_collection_products", id],
-    ({ pageParam }) => fetchCollectionProducts({ pageParam, id }),
-    {
-      getNextPageParam: (lastPage) => lastPage.nextPage,
-    }
+  const collections = await getCollections()
+  const collection = collections.find(
+    (collection) => collection.handle === handle
   )
+  if (collection) {
+    await queryClient.prefetchInfiniteQuery(
+      ["get_collection_products", handle],
+      ({ pageParam }) => fetchCollectionProducts({ pageParam, id: collection.id }),
+      {
+        getNextPageParam: (lastPage) => lastPage.nextPage,
+      }
+    )
+  }
 
-  const queryData = await queryClient.getQueryData([`get_collection`, id])
 
-  if (!queryData) {
+  const queryData = await queryClient.getQueryData([`get_collection`, handle])
+
+  if (!queryData || !collection) {
     return {
       props: {
         notFound: true,
