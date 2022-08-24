@@ -6,7 +6,6 @@ import {
   Grid,
   GridItem,
   Flex,
-  HStack,
   Stack,
   Center,
 } from "@chakra-ui/react"
@@ -38,14 +37,6 @@ const Ingredients = ({ data }: { data: any }) => {
   const secondCol = ingredients
     ? ingredients.slice(Math.ceil(numIngredients / 2), numIngredients)
     : []
-  console.log(
-    "firstCol.map(i => i.fields.title): ",
-    firstCol.map((i) => i.fields.title)
-  )
-  console.log(
-    "secondCol.map(i => i.fields.title): ",
-    secondCol.map((i) => i.fields.title)
-  )
 
   return (
     <Container centerContent textAlign="center" my={10} maxW="8xl">
