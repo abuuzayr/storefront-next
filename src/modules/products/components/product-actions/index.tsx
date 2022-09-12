@@ -20,10 +20,11 @@ import Link from "next/link"
 import React, { ReactNode, useEffect, useMemo, useState } from "react"
 import { Product } from "types/medusa"
 import contentfulClient from "@lib/util/contentful-client"
-import { BiHeart } from "react-icons/bi"
+import { FaHeart, FaRegHeart } from "react-icons/fa"
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer"
 import { INLINES, BLOCKS, MARKS, Document } from "@contentful/rich-text-types"
 import { FaArrowDown, FaArrowUp } from "react-icons/fa"
+import { useWishlist } from "@lib/hooks/use-wishlist"
 
 type ProductActionsProps = {
   product: Product
@@ -68,6 +69,7 @@ const ProductActions: React.FC<ProductActionsProps> = ({ product }) => {
   const { updateOptions, addToCart, options, inStock, variant } =
     useProductActions()
   const [contentfulData, setContentfulData] = useState<any>()
+  const { wishlist, actions } = useWishlist()
 
   useEffect(() => {
     async function getContentfulData() {
@@ -88,6 +90,10 @@ const ProductActions: React.FC<ProductActionsProps> = ({ product }) => {
 
     return variantPrice || cheapestPrice || null
   }, [price])
+
+  const isInWishlist = wishlist.items ? wishlist.items
+    .map((item) => item?.product_id)
+    .includes(product.id) : false
 
   return (
     <div className="flex flex-col gap-y-2">
@@ -168,14 +174,35 @@ const ProductActions: React.FC<ProductActionsProps> = ({ product }) => {
         {!inStock ? "Out of stock" : "加入購物車"}
       </Button>
 
-      <Text display="flex" alignItems="center" mt={3} color="brand.400">
-        <BiHeart
+      <Button
+        display="flex"
+        alignItems="center"
+        mt={3}
+        color="brand.400"
+        onClick={() => {
+          if (isInWishlist) {
+            actions.removeWishItem(product.id)
+          } else {
+            actions.addWishItem(product.id)}
+          }
+        }
+        variant="ghost"
+        width="fit-content"
+        _hover={{
+          bg: "pink.100"
+        }}
+      >
+        {isInWishlist ? <FaHeart
           color="var(--chakra-colors-brand-400)"
           size={24}
           className="mr-2"
-        />
-        加入願望清單
-      </Text>
+        /> : <FaRegHeart
+          color="var(--chakra-colors-brand-400)"
+          size={24}
+          className="mr-2"
+        />}
+        {isInWishlist ? `从心愿单中移除` : `加入願望清單`}
+      </Button>
 
       {contentfulData && (
         <>
