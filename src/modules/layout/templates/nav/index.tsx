@@ -1,6 +1,7 @@
 import { useMobileMenu } from "@lib/context/mobile-menu-context"
 import Hamburger from "@modules/common/components/hamburger"
 import CartDropdown from "@modules/layout/components/cart-dropdown"
+import WishlistDropdown from "@modules/layout/components/wishlist-dropdown"
 import MobileMenu from "@modules/mobile-menu/templates"
 import DesktopSearchModal from "@modules/search/templates/desktop-search-modal"
 import clsx from "clsx"
@@ -8,7 +9,7 @@ import Link from "next/link"
 import { useRouter } from "next/router"
 import { useEffect, useState } from "react"
 import { useNavbarData } from "@lib/hooks/use-layout-data"
-import { BiHeart, BiChevronDown } from "react-icons/bi"
+import { BiChevronDown } from "react-icons/bi"
 import {
   Text,
   Heading,
@@ -98,12 +99,7 @@ const Nav = () => {
                   <DesktopSearchModal />
                 </GridItem>
                 <GridItem>
-                  <Button variant="ghost" colorScheme="white">
-                    <BiHeart
-                      size={24}
-                      style={{ color: "var(--chakra-colors-brand-400)" }}
-                    />
-                  </Button>
+                  <WishlistDropdown />
                 </GridItem>
                 <GridItem>
                   <CartDropdown />
