@@ -1,6 +1,7 @@
 import { MEDUSA_BACKEND_URL, queryClient } from "@lib/config"
 import { AccountProvider } from "@lib/context/account-context"
 import { CartDropdownProvider } from "@lib/context/cart-dropdown-context"
+import { WishlistDropdownProvider } from "@lib/context/wishlist-dropdown-context"
 import { MobileMenuProvider } from "@lib/context/mobile-menu-context"
 import { StoreProvider } from "@lib/context/store-context"
 import { CartProvider, MedusaProvider } from "medusa-react"
@@ -8,6 +9,7 @@ import { Hydrate } from "react-query"
 import "styles/globals.css"
 import { AppPropsWithLayout } from "types/global"
 import { ChakraProvider, extendTheme } from "@chakra-ui/react"
+import { WishlistProvider } from "@lib/context/wishlist-context"
 
 const customTheme = {
   colors: {
@@ -48,17 +50,21 @@ function App({ Component, pageProps }: AppPropsWithLayout) {
     >
       <Hydrate state={pageProps.dehydratedState}>
         <CartDropdownProvider>
-          <MobileMenuProvider>
-            <CartProvider>
-              <StoreProvider>
-                <AccountProvider>
-                  <ChakraProvider theme={theme}>
-                    {getLayout(<Component {...pageProps} />)}
-                  </ChakraProvider>
-                </AccountProvider>
-              </StoreProvider>
-            </CartProvider>
-          </MobileMenuProvider>
+          <WishlistDropdownProvider>
+            <MobileMenuProvider>
+              <CartProvider>
+                <WishlistProvider>
+                  <StoreProvider>
+                    <AccountProvider>
+                      <ChakraProvider theme={theme}>
+                        {getLayout(<Component {...pageProps} />)}
+                      </ChakraProvider>
+                    </AccountProvider>
+                  </StoreProvider>
+                </WishlistProvider>
+              </CartProvider>
+            </MobileMenuProvider>
+          </WishlistDropdownProvider>
         </CartDropdownProvider>
       </Hydrate>
     </MedusaProvider>
