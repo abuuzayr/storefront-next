@@ -1,6 +1,6 @@
 import Image from "next/image"
 import Link from "next/link"
-import { useEffect, useState } from "react"
+import { useEffect, useMemo, useState } from "react"
 import {
   Heading,
   Text,
@@ -9,6 +9,7 @@ import {
   SimpleGrid,
 } from "@chakra-ui/react"
 import contentfulClient from "@lib/util/contentful-client"
+import { formatAmount, useCart } from "medusa-react"
 
 type RelatedProductsProps = {
   data: {[key: string]: any}
@@ -16,6 +17,7 @@ type RelatedProductsProps = {
 
 const RelatedProducts = ({ data }: RelatedProductsProps) => {
   const [products, setProducts] = useState<Array<any>>([])
+  const { cart } = useCart()
 
   useEffect(() => {
     async function getProducts() {
@@ -46,6 +48,14 @@ const RelatedProducts = ({ data }: RelatedProductsProps) => {
               height = 300
             }
           }
+          const price = fields.variants[0].fields.prices[0] 
+          let priceStr = price ? `${price.currency_code.toUpperCase()}${price.amount}` : ''
+          if (cart?.region) {
+            priceStr = formatAmount({
+              amount: price.amount,
+              region: cart.region,
+            })
+          }
           return (
             <Link
               href={`/products/${fields.handle}`}
@@ -70,10 +80,7 @@ const RelatedProducts = ({ data }: RelatedProductsProps) => {
                 </Text>
                 {fields.variants.length ? (
                   <Text size="sm" mt={2}>
-                    {fields.variants[0].fields.prices[0] &&
-                      fields.variants[0].fields.prices[0].currency_code.toUpperCase()}
-                    {fields.variants[0].fields.prices[0] &&
-                      fields.variants[0].fields.prices[0].amount}
+                    {priceStr}
                   </Text>
                 ) : (
                   <></>
