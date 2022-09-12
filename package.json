@@ -33,6 +33,7 @@
     "@paypal/react-paypal-js": "^7.8.1",
     "@stripe/react-stripe-js": "^1.7.2",
     "@stripe/stripe-js": "^1.29.0",
+    "axios": "^0.27.2",
     "clsx": "^1.1.1",
     "contentful": "^10.0.0-beta-v10.8",
     "framer-motion": "^7.0.1",
