@@ -130,6 +130,7 @@ const MobileActions: React.FC<MobileActionsProps> = ({ product, show }) => {
                                 current={options[option.id]}
                                 updateOption={updateOptions}
                                 title={option.title}
+                                variants={product.variants}
                               />
                             </div>
                           )
