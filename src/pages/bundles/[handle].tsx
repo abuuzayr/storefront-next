@@ -1,6 +1,6 @@
 import { medusaClient } from "@lib/config"
 import { IS_BROWSER } from "@lib/constants"
-import { getProductHandles } from "@lib/util/get-product-handles"
+import { getBundleHandles } from "@lib/util/get-bundle-handles"
 import Head from "@modules/common/components/head"
 import Layout from "@modules/layout/templates"
 import ProductBundleTemplate from "@modules/products/templates/bundles"
@@ -79,7 +79,8 @@ ProductPage.getLayout = (page: ReactElement) => {
 }
 
 export const getStaticPaths: GetStaticPaths<Params> = async () => {
-  const handles = await getProductHandles()
+  const handles = await getBundleHandles()
+  console.log("handles: ", handles)
   return {
     paths: handles.map((handle) => ({ params: { handle } })),
     fallback: true,
