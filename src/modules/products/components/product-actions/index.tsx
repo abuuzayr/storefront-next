@@ -26,7 +26,7 @@ import { INLINES, BLOCKS, MARKS, Document } from "@contentful/rich-text-types"
 import { FaArrowDown, FaArrowUp } from "react-icons/fa"
 import { useWishlist } from "@lib/hooks/use-wishlist"
 
-type ProductActionsProps = {
+type BundleActionsProps = {
   product: Product
 }
 
@@ -65,7 +65,7 @@ const renderOptions = {
   },
 }
 
-const ProductActions: React.FC<ProductActionsProps> = ({ product }) => {
+const BundleActions: React.FC<BundleActionsProps> = ({ product }) => {
   const { updateOptions, addToCart, options, inStock, variant } =
     useProductActions()
   const [contentfulData, setContentfulData] = useState<any>()
@@ -217,10 +217,10 @@ const ProductActions: React.FC<ProductActionsProps> = ({ product }) => {
               my={6}
             >
               <AlertTitle mb={1} fontSize="md" color="brand.400">
-                {contentfulData.discountText.fields.title}
+                {contentfulData.discountText.fields?.title}
               </AlertTitle>
               <AlertDescription maxWidth="sm" fontSize="md">
-                {contentfulData.discountText.fields.text}
+                {contentfulData.discountText.fields?.text}
               </AlertDescription>
             </Alert>
           )}
@@ -259,4 +259,4 @@ const ProductActions: React.FC<ProductActionsProps> = ({ product }) => {
   )
 }
 
-export default ProductActions
+export default BundleActions
