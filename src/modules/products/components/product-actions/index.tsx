@@ -26,7 +26,7 @@ import { INLINES, BLOCKS, MARKS, Document } from "@contentful/rich-text-types"
 import { FaArrowDown, FaArrowUp } from "react-icons/fa"
 import { useWishlist } from "@lib/hooks/use-wishlist"
 
-type BundleActionsProps = {
+type ProductActionsProps = {
   product: Product
 }
 
@@ -65,7 +65,7 @@ const renderOptions = {
   },
 }
 
-const BundleActions: React.FC<BundleActionsProps> = ({ product }) => {
+const ProductActions: React.FC<ProductActionsProps> = ({ product }) => {
   const { updateOptions, addToCart, options, inStock, variant } =
     useProductActions()
   const [contentfulData, setContentfulData] = useState<any>()
@@ -98,7 +98,7 @@ const BundleActions: React.FC<BundleActionsProps> = ({ product }) => {
   return (
     <div className="flex flex-col gap-y-2">
       <Text color="brand.400">{product.type?.value || ""}</Text>
-      <h3 className="text-xl-regular">{product.title}</h3>
+      <h3 className="text-xl-regular">{product?.title}</h3>
 
       <Text>
         來源地:
@@ -109,7 +109,7 @@ const BundleActions: React.FC<BundleActionsProps> = ({ product }) => {
       <Text mt={-2}>
         類別:
         <Text as="span" color="brand.400" ml={2}>
-          {product.collection.title}
+          {product.collection?.title}
         </Text>
       </Text>
 
@@ -124,7 +124,7 @@ const BundleActions: React.FC<BundleActionsProps> = ({ product }) => {
                 option={option}
                 current={options[option.id]}
                 updateOption={updateOptions}
-                title={option.title}
+                title={option?.title}
                 variants={product.variants}
               />
             </div>
@@ -259,4 +259,4 @@ const BundleActions: React.FC<BundleActionsProps> = ({ product }) => {
   )
 }
 
-export default BundleActions
+export default ProductActions

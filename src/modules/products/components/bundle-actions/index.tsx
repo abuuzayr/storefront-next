@@ -72,24 +72,25 @@ const BundleActions: React.FC<BundleActionsProps> = ({ bundle }) => {
         加入願望清單
       </Text> */}
 
-      {bundle.discountText && (
-        <Alert
-          status="error"
-          variant="subtle"
-          flexDirection="column"
-          p={6}
-          alignItems="start"
-          bg="rgba(224, 39, 132, 0.04)"
-          my={6}
-        >
-          <AlertTitle mb={1} fontSize="md" color="brand.400">
-            {bundle.discountText.fields.title}
-          </AlertTitle>
-          <AlertDescription maxWidth="sm" fontSize="md">
-            {bundle.discountText.fields.text}
-          </AlertDescription>
-        </Alert>
-      )}
+      {bundle.discountText &&
+        bundle.discountText.fields && (
+          <Alert
+            status="error"
+            variant="subtle"
+            flexDirection="column"
+            p={6}
+            alignItems="start"
+            bg="rgba(224, 39, 132, 0.04)"
+            my={6}
+          >
+            <AlertTitle mb={1} fontSize="md" color="brand.400">
+              {bundle.discountText.fields?.title}
+            </AlertTitle>
+            <AlertDescription maxWidth="sm" fontSize="md">
+              {bundle.discountText.fields?.text}
+            </AlertDescription>
+          </Alert>
+        )}
     </div>
   )
 }
