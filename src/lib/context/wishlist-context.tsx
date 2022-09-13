@@ -7,12 +7,15 @@ const defaultWishlistContext = {
     id: "",
     items: [
       {
-        id: "1",
-        title: "Medusa Tote",
-        thumbnail:
-          "https://medusa-public-images.s3.eu-west-1.amazonaws.com/tshirt.png",
-      },
-    ],
+        product: {
+          id: "1",
+          title: "Medusa Tote",
+          thumbnail:
+            "https://medusa-public-images.s3.eu-west-1.amazonaws.com/tshirt.png",
+          },
+        product_id: "",
+        },
+      ],
   },
   loading: false,
   actions: {
@@ -28,8 +31,8 @@ const WISHLIST_ID = "wishlist_id"
 const isBrowser = typeof window !== "undefined"
 
 export const WishlistProvider = (props: any) => {
-  const [wishlist, setWishlist] = useState(defaultWishlistContext.wishlist)
-  const [loading, setLoading] = useState(defaultWishlistContext.loading)
+  const [wishlist, setWishlist] = useState<any>(defaultWishlistContext.wishlist)
+  const [loading, setLoading] = useState<boolean>(defaultWishlistContext.loading)
   const { cart } = useCart()
   const { region } = cart!
 
