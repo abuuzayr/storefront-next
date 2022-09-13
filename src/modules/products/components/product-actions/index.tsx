@@ -97,7 +97,7 @@ const ProductActions: React.FC<ProductActionsProps> = ({ product }) => {
 
   return (
     <div className="flex flex-col gap-y-2">
-      <Text color="brand.400">{product.type.value}</Text>
+      <Text color="brand.400">{product.type?.value || ""}</Text>
       <h3 className="text-xl-regular">{product.title}</h3>
 
       <Text>
