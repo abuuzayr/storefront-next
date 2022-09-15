@@ -5,11 +5,10 @@ import WishlistDropdown from "@modules/layout/components/wishlist-dropdown"
 import MobileMenu from "@modules/mobile-menu/templates"
 import DesktopSearchModal from "@modules/search/templates/desktop-search-modal"
 import clsx from "clsx"
-import Link from "next/link"
 import { useRouter } from "next/router"
 import { useEffect, useState } from "react"
 import { useNavbarData } from "@lib/hooks/use-layout-data"
-import { BiChevronDown } from "react-icons/bi"
+import { BiChevronDown, BiMenu } from "react-icons/bi"
 import {
   Text,
   Heading,
@@ -18,20 +17,52 @@ import {
   Button,
   Box,
   Container,
-  Flex,
+  Link,
   Menu,
   MenuButton,
   MenuList,
   MenuItem,
-  MenuDivider,
+  Accordion,
+  AccordionItem,
+  AccordionButton,
+  AccordionPanel,
+  AccordionIcon,
 } from "@chakra-ui/react"
 import Image from "next/image"
+import contentfulClient from "@lib/util/contentful-client"
+
+const ResolvedLink = ({ id }: { id: string }) => {
+  const [linkData, setLinkData] = useState<{ [x: string]: any }>({})
+
+  useEffect(() => {
+    async function getLinkData() {
+      const response = await contentfulClient.getEntry(
+        id
+      )
+      setLinkData(response.fields)
+    }
+    getLinkData()
+  }, [id])
+
+  return (
+    <Link href={linkData?.link?.fields.linkTo} display="block">{linkData?.title}</Link>
+  )
+}
 
 const Nav = () => {
   const { pathname } = useRouter()
   const [isHome, setIsHome] = useState(false)
   const [isScrolled, setIsScrolled] = useState(false)
-  const { data: data, isLoading: loadingData } = useNavbarData()
+  const { data, isLoading } = useNavbarData()
+
+  let bannerData, leftNavData, rightNavData
+
+  if (data && !isLoading) {
+    leftNavData = data?.[0].items[0].fields.references
+    rightNavData = data?.[1].items[0].fields.references
+    bannerData = data?.[2].items[0].fields
+  }
+  
 
   //useEffect that detects if window is scrolled > 5px on the Y axis
   useEffect(() => {
@@ -60,16 +91,21 @@ const Nav = () => {
 
   return (
     <Box>
+      <Box display={["block", "block", "none"]} py={3}>
+        <Text align="center" size="xs">
+          {bannerData ? bannerData.text : ""}
+        </Text>
+      </Box>
       <Container style={{ boxShadow: "0px 1px 0px 0px #E0E0E0" }} maxW="full">
         <Container maxW="container.xl" py={2}>
           <Grid
-            templateColumns="1fr 3fr 1fr"
+            templateColumns={["1fr 1fr", "1fr 1fr", "1fr 3fr 1fr"]}
             gap={6}
             alignItems="center"
             justifyContent="end"
           >
             <GridItem>
-              <Link href="/" passHref>
+              <Link href="/" _hover={{ textDecoration: "none" }}>
                 <Heading
                   as="h2"
                   size="lg"
@@ -83,9 +119,9 @@ const Nav = () => {
                 </Heading>
               </Link>
             </GridItem>
-            <GridItem>
+            <GridItem display={["none", "none", "block"]}>
               <Text align="center" size="xs">
-                {data ? data.data.banner.items[0].text : ""}
+                {bannerData ? bannerData.text : ""}
               </Text>
             </GridItem>
             <GridItem>
@@ -109,7 +145,45 @@ const Nav = () => {
           </Grid>
         </Container>
       </Container>
-      <Container maxW="container.xl" py={8} centerContent>
+      <Accordion display={["block", "block", "none"]} allowToggle w="full">
+        <AccordionItem>
+          <h2>
+            <AccordionButton>
+              <Box flex="1" textAlign="left" px={4}>
+                <BiMenu size={24} />
+              </Box>
+              <AccordionIcon />
+            </AccordionButton>
+          </h2>
+          <AccordionPanel pb={4}>
+            <Accordion allowToggle>
+              {[...(leftNavData ? leftNavData : []), ...(rightNavData ? rightNavData : [])].map((nav: any) => (
+                <AccordionItem key={nav.sys.id}>
+                  <h2>
+                    <AccordionButton>
+                      <Box flex="1" textAlign="left">
+                        {nav.fields.title}
+                      </Box>
+                      <AccordionIcon />
+                    </AccordionButton>
+                  </h2>
+                  <AccordionPanel pb={4}>
+                    {nav.fields.items.map((item: any) => (
+                      <ResolvedLink key={item.sys.id} id={item.sys.id} />
+                    ))}
+                  </AccordionPanel>
+                </AccordionItem>
+              ))}
+            </Accordion>
+          </AccordionPanel>
+        </AccordionItem>
+      </Accordion>
+      <Container
+        maxW="container.xl"
+        py={8}
+        centerContent
+        display={["none", "none", "block"]}
+      >
         <Grid
           templateColumns="2fr 1fr 2fr"
           gap={6}
@@ -117,83 +191,43 @@ const Nav = () => {
           width="100%"
         >
           <GridItem>
-            <Grid templateColumns="repeat(3, 1fr)" gap={4} alignItems="center">
-              <GridItem textAlign="center">
-                <>
-                  <Menu>
-                    <MenuButton
-                      as={Button}
-                      rounded={"full"}
-                      variant={"link"}
-                      cursor={"pointer"}
-                      minW={0}
-                    >
-                      限時優惠{" "}
-                      <BiChevronDown
-                        color="var(--chakra-colors-brand-400)"
-                        style={{ display: "inline" }}
-                      />
-                    </MenuButton>
-                    <MenuList>
-                      <MenuItem>Link 1</MenuItem>
-                      <MenuItem>Link 2</MenuItem>
-                      <MenuDivider />
-                      <MenuItem>Link 3</MenuItem>
-                    </MenuList>
-                  </Menu>
-                </>
-              </GridItem>
-              <GridItem textAlign="center">
-                <>
-                  <Menu>
-                    <MenuButton
-                      as={Button}
-                      rounded={"full"}
-                      variant={"link"}
-                      cursor={"pointer"}
-                      minW={0}
-                    >
-                      網誌{" "}
-                      <BiChevronDown
-                        color="var(--chakra-colors-brand-400)"
-                        style={{ display: "inline" }}
-                      />
-                    </MenuButton>
-                    <MenuList>
-                      <MenuItem>Link 1</MenuItem>
-                      <MenuItem>Link 2</MenuItem>
-                      <MenuDivider />
-                      <MenuItem>Link 3</MenuItem>
-                    </MenuList>
-                  </Menu>
-                </>
-              </GridItem>
-              <GridItem textAlign="center">
-                <>
-                  <Menu>
-                    <MenuButton
-                      as={Button}
-                      rounded={"full"}
-                      variant={"link"}
-                      cursor={"pointer"}
-                      minW={0}
-                    >
-                      護膚產品{" "}
-                      <BiChevronDown
-                        color="var(--chakra-colors-brand-400)"
-                        style={{ display: "inline" }}
-                      />
-                    </MenuButton>
-                    <MenuList>
-                      <MenuItem>Link 1</MenuItem>
-                      <MenuItem>Link 2</MenuItem>
-                      <MenuDivider />
-                      <MenuItem>Link 3</MenuItem>
-                    </MenuList>
-                  </Menu>
-                </>
-              </GridItem>
-            </Grid>
+            {leftNavData && (
+              <Grid
+                templateColumns={`repeat(${leftNavData.length}, 1fr)`}
+                gap={4}
+                alignItems="center"
+              >
+                {leftNavData.map((nav: any) => (
+                  <GridItem textAlign="center" key={nav.sys.id}>
+                    <>
+                      <Menu>
+                        <MenuButton
+                          as={Button}
+                          rounded={"full"}
+                          variant={"link"}
+                          cursor={"pointer"}
+                          minW={0}
+                          _hover={{ textDecoration: "none" }}
+                        >
+                          {nav.fields.title}
+                          <BiChevronDown
+                            color="var(--chakra-colors-brand-400)"
+                            style={{ display: "inline" }}
+                          />
+                        </MenuButton>
+                        <MenuList>
+                          {nav.fields.items.map((item: any) => (
+                            <MenuItem key={item.sys.id}>
+                              <ResolvedLink id={item.sys.id} />
+                            </MenuItem>
+                          ))}
+                        </MenuList>
+                      </Menu>
+                    </>
+                  </GridItem>
+                ))}
+              </Grid>
+            )}
           </GridItem>
           <GridItem m="0 auto">
             <Image
@@ -203,85 +237,43 @@ const Nav = () => {
               height="128"
             />
           </GridItem>
-          <GridItem>
-            <Grid templateColumns="repeat(3, 1fr)" gap={4} alignItems="center">
-              <GridItem textAlign="center">
-                <>
-                  <Menu>
-                    <MenuButton
-                      as={Button}
-                      rounded={"full"}
-                      variant={"link"}
-                      cursor={"pointer"}
-                      minW={0}
-                    >
-                      養生食材{" "}
-                      <BiChevronDown
-                        color="var(--chakra-colors-brand-400)"
-                        style={{ display: "inline" }}
-                      />
-                    </MenuButton>
-                    <MenuList>
-                      <MenuItem>Link 1</MenuItem>
-                      <MenuItem>Link 2</MenuItem>
-                      <MenuDivider />
-                      <MenuItem>Link 3</MenuItem>
-                    </MenuList>
-                  </Menu>
-                </>
-              </GridItem>
-              <GridItem textAlign="center">
-                <>
-                  <Menu>
-                    <MenuButton
-                      as={Button}
-                      rounded={"full"}
-                      variant={"link"}
-                      cursor={"pointer"}
-                      minW={0}
-                    >
-                      保健食品{" "}
-                      <BiChevronDown
-                        color="var(--chakra-colors-brand-400)"
-                        style={{ display: "inline" }}
-                      />
-                    </MenuButton>
-                    <MenuList>
-                      <MenuItem>Link 1</MenuItem>
-                      <MenuItem>Link 2</MenuItem>
-                      <MenuDivider />
-                      <MenuItem>Link 3</MenuItem>
-                    </MenuList>
-                  </Menu>
-                </>
-              </GridItem>
-              <GridItem textAlign="center">
-                <>
-                  <Menu>
-                    <MenuButton
-                      as={Button}
-                      rounded={"full"}
-                      variant={"link"}
-                      cursor={"pointer"}
-                      minW={0}
-                    >
-                      關於我們{" "}
-                      <BiChevronDown
-                        color="var(--chakra-colors-brand-400)"
-                        style={{ display: "inline" }}
-                      />
-                    </MenuButton>
-                    <MenuList>
-                      <MenuItem>Link 1</MenuItem>
-                      <MenuItem>Link 2</MenuItem>
-                      <MenuDivider />
-                      <MenuItem>Link 3</MenuItem>
-                    </MenuList>
-                  </Menu>
-                </>
-              </GridItem>
+          {rightNavData && (
+            <Grid
+              templateColumns={`repeat(${rightNavData.length}, 1fr)`}
+              gap={4}
+              alignItems="center"
+            >
+              {rightNavData.map((nav: any) => (
+                <GridItem textAlign="center" key={nav.sys.id}>
+                  <>
+                    <Menu>
+                      <MenuButton
+                        as={Button}
+                        rounded={"full"}
+                        variant={"link"}
+                        cursor={"pointer"}
+                        minW={0}
+                        _hover={{ textDecoration: "none" }}
+                      >
+                        {nav.fields.title}
+                        <BiChevronDown
+                          color="var(--chakra-colors-brand-400)"
+                          style={{ display: "inline" }}
+                        />
+                      </MenuButton>
+                      <MenuList>
+                        {nav.fields.items.map((item: any) => (
+                          <MenuItem key={item.sys.id}>
+                            <ResolvedLink id={item.sys.id} />
+                          </MenuItem>
+                        ))}
+                      </MenuList>
+                    </Menu>
+                  </>
+                </GridItem>
+              ))}
             </Grid>
-          </GridItem>
+          )}
         </Grid>
       </Container>
     </Box>
@@ -313,8 +305,7 @@ const Nav = () => {
             <div className="block small:hidden">
               <Hamburger setOpen={toggle} />
             </div>
-            <div className="hidden small:block h-full">
-            </div>
+            <div className="hidden small:block h-full"></div>
           </div>
 
           <div className="flex items-center h-full">
