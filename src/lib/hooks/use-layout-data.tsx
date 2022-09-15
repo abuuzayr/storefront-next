@@ -7,32 +7,6 @@ import { ProductPreviewType } from "types/global"
 import { CalculatedVariant } from "types/medusa"
 import contentfulClient from "@lib/util/contentful-client"
 
-const headerQuery = `
-  query HeaderQuery {
-    left: navigationAreCollection(where: {title: "Header Left" }, limit: 1) {
-      items {
-        itemsCollection {
-          items {
-            link {
-              linkTo
-              reference {
-                ...on Page {
-                  slug
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-    banner: textCollection(where: { id: "banner" }, limit: 1) {
-      items {
-        text
-      }
-    }
-  }
-`
-
 type LayoutCollection = {
   id: string
   title: string
