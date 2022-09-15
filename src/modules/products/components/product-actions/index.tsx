@@ -183,24 +183,28 @@ const ProductActions: React.FC<ProductActionsProps> = ({ product }) => {
           if (isInWishlist) {
             actions.removeWishItem(product.id)
           } else {
-            actions.addWishItem(product.id)}
+            actions.addWishItem(product.id)
           }
-        }
+        }}
         variant="ghost"
         width="fit-content"
         _hover={{
-          bg: "pink.100"
+          bg: "pink.100",
         }}
       >
-        {isInWishlist ? <FaHeart
-          color="var(--chakra-colors-brand-400)"
-          size={24}
-          className="mr-2"
-        /> : <FaRegHeart
-          color="var(--chakra-colors-brand-400)"
-          size={24}
-          className="mr-2"
-        />}
+        {isInWishlist ? (
+          <FaHeart
+            color="var(--chakra-colors-brand-400)"
+            size={24}
+            className="mr-2"
+          />
+        ) : (
+          <FaRegHeart
+            color="var(--chakra-colors-brand-400)"
+            size={24}
+            className="mr-2"
+          />
+        )}
         {isInWishlist ? `从心愿单中移除` : `加入願望清單`}
       </Button>
 
@@ -225,33 +229,34 @@ const ProductActions: React.FC<ProductActionsProps> = ({ product }) => {
             </Alert>
           )}
           <Accordion my={2} allowToggle defaultIndex={0}>
-            {contentfulData.fullProductDescription.map((desc: any) => (
-              <AccordionItem border="none" key={desc.sys.id}>
-                {({ isExpanded }) => (
-                  <>
-                    <AccordionButton pl={0}>
-                      {isExpanded ? (
-                        <FaArrowUp size={14} style={{ color: "gray" }} />
-                      ) : (
-                        <FaArrowDown size={14} style={{ color: "gray" }} />
-                      )}
-                      <Heading as="h3" color="gray" fontSize={14} ml={4}>
-                        {desc.fields.title}
-                      </Heading>
-                    </AccordionButton>
-                    <AccordionPanel pl={7} py={5}>
-                      <Heading as="h4" fontSize={14} color="brand.400" pb={4}>
-                        {desc.fields.subtitle}
-                      </Heading>
-                      {documentToReactComponents(
-                        desc.fields.richText,
-                        renderOptions
-                      )}
-                    </AccordionPanel>
-                  </>
-                )}
-              </AccordionItem>
-            ))}
+            {contentfulData.fullProductDescription &&
+              contentfulData.fullProductDescription.map((desc: any) => (
+                <AccordionItem border="none" key={desc.sys.id}>
+                  {({ isExpanded }) => (
+                    <>
+                      <AccordionButton pl={0}>
+                        {isExpanded ? (
+                          <FaArrowUp size={14} style={{ color: "gray" }} />
+                        ) : (
+                          <FaArrowDown size={14} style={{ color: "gray" }} />
+                        )}
+                        <Heading as="h3" color="gray" fontSize={14} ml={4}>
+                          {desc.fields.title}
+                        </Heading>
+                      </AccordionButton>
+                      <AccordionPanel pl={7} py={5}>
+                        <Heading as="h4" fontSize={14} color="brand.400" pb={4}>
+                          {desc.fields.subtitle}
+                        </Heading>
+                        {documentToReactComponents(
+                          desc.fields.richText,
+                          renderOptions
+                        )}
+                      </AccordionPanel>
+                    </>
+                  )}
+                </AccordionItem>
+              ))}
           </Accordion>
         </>
       )}
