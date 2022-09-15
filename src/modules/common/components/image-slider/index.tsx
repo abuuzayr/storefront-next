@@ -35,10 +35,8 @@ const ImageSlider = ({ data }: { data: any }) => {
     ),
   }
 
-  console.log(data)
-
   return (
-    <Container centerContent textAlign="center" my={10} maxW="8xl">
+    <Container centerContent textAlign="center" my={10} maxW="8xl" overflow="hidden">
       <Heading as="h3" fontSize={42} color="brand.400" fontWeight="400">
         {data.title}
       </Heading>
