@@ -13,7 +13,7 @@ const defaultWishlistContext = {
           thumbnail:
             "https://medusa-public-images.s3.eu-west-1.amazonaws.com/tshirt.png",
           },
-        product_id: "",
+          product_id: "",
         },
       ],
   },
