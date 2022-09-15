@@ -5,11 +5,11 @@ import { formatAmount, useCart } from "medusa-react"
 import { useQuery } from "react-query"
 import { ProductPreviewType } from "types/global"
 import { CalculatedVariant } from "types/medusa"
-import { fetchGraphQL } from "@lib/contentful/api"
+import contentfulClient from "@lib/util/contentful-client"
 
 const headerQuery = `
   query HeaderQuery {
-    nav: navigationMenuCollection(where: {title: "Main" }, limit: 1) {
+    left: navigationAreCollection(where: {title: "Header Left" }, limit: 1) {
       items {
         itemsCollection {
           items {
@@ -137,7 +137,26 @@ export const useFeaturedProductsQuery = () => {
 }
 
 const fetchNavbarData = async () => {
-  return await fetchGraphQL(headerQuery)
+  const responseHeaderLeft = await contentfulClient.getEntries({
+    content_type: "navigationArea",
+    limit: 1,
+    "fields.name": "Header Left",
+  })
+  const responseHeaderRight = await contentfulClient.getEntries({
+    content_type: "navigationArea",
+    limit: 1,
+    "fields.name": "Header Right",
+  })
+  const responseBanner = await contentfulClient.getEntries({
+    content_type: "text",
+    limit: 1,
+    "fields.id": "banner",
+  })
+  return await Promise.all([
+    responseHeaderLeft,
+    responseHeaderRight,
+    responseBanner,
+  ])
 }
 
 export const useNavbarData = () => {
@@ -145,6 +164,5 @@ export const useNavbarData = () => {
     staleTime: Infinity,
     refetchOnWindowFocus: false,
   })
-
   return data
 }
