@@ -95,6 +95,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
       props: {
         notFound: true,
       },
+      revalidate: 10,
     }
   }
 
@@ -103,6 +104,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
       dehydratedState: dehydrate(queryClient),
       notFound: false,
     },
+    revalidate: 10,
   }
 }
 

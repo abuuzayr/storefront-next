@@ -140,6 +140,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
       dehydratedState: JSON.parse(JSON.stringify(dehydrate(queryClient))),
       notFound: false,
     },
+    revalidate: 10,
   }
 }
 
