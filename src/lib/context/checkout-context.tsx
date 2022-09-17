@@ -242,7 +242,7 @@ export const CheckoutProvider = ({ children }: CheckoutProviderProps) => {
   const prepareFinalSteps = () => {
     initPayment()
 
-    if (shippingMethods) {
+    if (shippingMethods && shippingMethods.length) {
       setShippingOption(shippingMethods[0].value)
     }
   }
