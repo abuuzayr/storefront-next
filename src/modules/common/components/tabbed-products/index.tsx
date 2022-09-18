@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react"
 import Link from "next/link"
 import Image from "next/image"
-import { Heading, Text, Container, Button, HStack, Box } from "@chakra-ui/react"
+import { Heading, Text, Container, Button, HStack, Box, Flex } from "@chakra-ui/react"
 import Separator from "../separator"
 import "react-responsive-carousel/lib/styles/carousel.min.css"
 import { Carousel } from "react-responsive-carousel"
 import { FaArrowCircleRight, FaArrowCircleLeft } from "react-icons/fa"
 import contentfulClient from "@lib/util/contentful-client"
+import { formatAmount, useCart } from "medusa-react"
 
 const Tab = ({
   active,
@@ -35,6 +36,7 @@ const Tab = ({
 const TabbedProducts = ({ data }: { data: any }) => {
   const [activeTab, setActiveTab] = useState(data.collections[0])
   const [products, setProducts] = useState<Array<any>>([])
+  const { cart } = useCart()
 
   useEffect(() => {
     async function getProducts() {
@@ -121,13 +123,32 @@ const TabbedProducts = ({ data }: { data: any }) => {
                       height = 300
                     }
                   }
+                  const price = product.variants[0].fields.prices[0]
+                  let priceStr = price
+                    ? `${price.currency_code.toUpperCase()}${price.amount}`
+                    : ""
+                  let originalPriceStr = product.originalPrice
+                    ? `${price.currency_code.toUpperCase()}${product.originalPrice}`
+                    : ""
+                  if (cart?.region && price) {
+                    priceStr = formatAmount({
+                      amount: price.amount,
+                      region: cart.region,
+                    })
+                    if (originalPriceStr) {
+                      originalPriceStr = formatAmount({
+                        amount: product.originalPrice * 100,
+                        region: cart.region,
+                      })
+                    }
+                  }
                   return (
                     <Link
                       href={`/products/${product.handle}`}
                       key={product.handle}
                       passHref
                     >
-                      <Box p={10}>
+                      <Box p={10} cursor="pointer">
                         {product.thumbnail && (
                           <Image
                             alt={product.thumbnail.fields.title}
@@ -143,19 +164,31 @@ const TabbedProducts = ({ data }: { data: any }) => {
                         <Text size="sm" mt={4}>
                           {product.title}
                         </Text>
-                        {product.variants.length ? (
-                          <Text size="sm" mt={2}>
-                            {product.variants[0].fields.prices[0] &&
-                              product.variants[0].fields.prices[0].currency_code.toUpperCase()}
-                            {product.variants[0].fields.prices[0] &&
-                              product.variants[0].fields.prices[0].amount}
-                          </Text>
-                        ) : (
-                          <></>
-                        )}
+                        <Flex justifyContent="center">
+                          {originalPriceStr ? (
+                            <Text
+                              size="sm"
+                              mt={2}
+                              textDecorationLine="line-through"
+                              color="gray.400"
+                              mr={1}
+                            >
+                              {originalPriceStr}
+                            </Text>
+                          ) : (
+                            <></>
+                          )}
+                          {product.variants.length ? (
+                            <Text size="sm" mt={2} color="brand.400">
+                              {priceStr}
+                            </Text>
+                          ) : (
+                            <></>
+                          )}
+                        </Flex>
                       </Box>
                     </Link>
-                )})}
+                  )})}
             </Carousel>
           </Box>
         ))}
