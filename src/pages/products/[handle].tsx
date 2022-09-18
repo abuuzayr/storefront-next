@@ -52,6 +52,9 @@ const ProductPage: NextPageWithLayout<PrefetchedPageProps> = ({ notFound }) => {
   }
 
   if (isSuccess) {
+    if (IS_BROWSER) {
+      if (data.tags.find(tag => tag.value === "hidden")) replace("/404")
+    }
     return (
       <>
         <Head
