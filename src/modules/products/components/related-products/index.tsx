@@ -7,12 +7,13 @@ import {
   Container,
   Box,
   SimpleGrid,
+  Flex,
 } from "@chakra-ui/react"
 import contentfulClient from "@lib/util/contentful-client"
 import { formatAmount, useCart } from "medusa-react"
 
 type RelatedProductsProps = {
-  data: {[key: string]: any}
+  data: {[key: string]: any};
 }
 
 const RelatedProducts = ({ data }: RelatedProductsProps) => {
@@ -50,11 +51,20 @@ const RelatedProducts = ({ data }: RelatedProductsProps) => {
           }
           const price = fields.variants[0].fields.prices[0] 
           let priceStr = price ? `${price.currency_code.toUpperCase()}${price.amount}` : ''
+          let originalPriceStr = fields.originalPrice ? `${price.currency_code.toUpperCase()}${
+            fields.originalPrice
+          }` : ''
           if (cart?.region) {
             priceStr = formatAmount({
               amount: price.amount,
               region: cart.region,
             })
+            if (originalPriceStr) {
+              originalPriceStr = formatAmount({
+                amount: fields.originalPrice * 100,
+                region: cart.region,
+              })
+            }
           }
           return (
             <Link
@@ -78,13 +88,22 @@ const RelatedProducts = ({ data }: RelatedProductsProps) => {
                 <Text size="sm" mt={4}>
                   {fields.title}
                 </Text>
-                {fields.variants.length ? (
-                  <Text size="sm" mt={2}>
-                    {priceStr}
-                  </Text>
-                ) : (
-                  <></>
-                )}
+                <Flex justifyContent="center">
+                  {originalPriceStr ? (
+                    <Text size="sm" mt={2} textDecorationLine="line-through" color="gray.400" mr={1}>
+                      {originalPriceStr}
+                    </Text>
+                  ) : (
+                    <></>
+                  )}
+                  {fields.variants.length ? (
+                    <Text size="sm" mt={2} color="brand.400">
+                      {priceStr}
+                    </Text>
+                  ) : (
+                    <></>
+                  )}
+                </Flex>
               </Box>
             </Link>
           )
