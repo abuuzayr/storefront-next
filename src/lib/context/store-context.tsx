@@ -25,7 +25,7 @@ interface StoreContext {
   setRegion: (regionId: string, countryCode: string) => void
   addItem: (item: VariantInfoProps) => void
   updateItem: (item: LineInfoProps) => void
-  deleteItem: (lineId: string) => void
+  deleteItem: (lineId: string, qty: number, additionalItems?: {[x: string]: any}[]) => void
   resetCart: () => void
 }
 
@@ -242,13 +242,29 @@ export const StoreProvider = ({ children }: StoreProps) => {
     )
   }
 
-  const deleteItem = (lineId: string) => {
+  const deleteItem = (
+    lineId: string,
+    qty: number,
+    additionalItems?: { [x: string]: any }[]
+  ) => {
     removeLineItem.mutate(
       {
         lineId,
       },
       {
         onSuccess: ({ cart }) => {
+          if (additionalItems) {
+            const additionalItemIds = additionalItems.map((item) => item.sys.id)
+            const additionalItemsInCart = cart.items.filter((item) =>
+              additionalItemIds.includes(item.variant.product.id)
+            )
+            additionalItemsInCart.forEach((item) =>
+              updateItem({
+                lineId: item.id,
+                quantity: item.quantity - qty,
+              })
+            )
+          }
           setCart(cart)
           storeCart(cart.id)
         },
