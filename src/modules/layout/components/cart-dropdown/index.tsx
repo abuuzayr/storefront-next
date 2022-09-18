@@ -13,6 +13,7 @@ import { Fragment } from "react"
 import { CalculatedVariant } from "types/medusa"
 import { BiShoppingBag } from "react-icons/bi"
 import { Flex, Text } from "@chakra-ui/react"
+import contentfulClient from "@lib/util/contentful-client"
 
 const CartDropdown = () => {
   const { cart, totalItems } = useCart()
@@ -94,7 +95,21 @@ const CartDropdown = () => {
                             <div>
                               <button
                                 className="flex items-center gap-x-1 text-gray-500"
-                                onClick={() => deleteItem(item.id)}
+                                onClick={async () => {
+                                  const response = await contentfulClient.getEntries({
+                                    content_type: "product",
+                                    limit: 1,
+                                    "fields.medusaId": item.variant.product.id,
+                                  })
+                                  const product = response.items.length ? response.items[0].fields : null
+                                  const additionalItems = product
+                                    ? [
+                                        ...(product.freeGifts ? product.freeGifts : []),
+                                        ...(product.addOnProducts ? product.addOnProducts : []),
+                                      ]
+                                    : []
+                                  deleteItem(item.id, item.quantity, additionalItems)
+                                }}
                               >
                                 <Trash size={14} />
                                 <span>Remove</span>
