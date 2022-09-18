@@ -38,7 +38,7 @@ const ProductTemplate: React.FC<ProductTemplateProps> = ({ product }) => {
         limit: 1,
         "fields.medusaId": product.id,
       })
-      setData(response.items[0].fields)
+      if (response.items.length) setData(response.items[0].fields)
     }
     getData()
   }, [product.id])
