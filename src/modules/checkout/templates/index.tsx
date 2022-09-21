@@ -1,3 +1,4 @@
+import { Heading } from "@chakra-ui/react"
 import { CheckoutProvider } from "@lib/context/checkout-context"
 import ChevronDown from "@modules/common/icons/chevron-down"
 import Link from "next/link"
@@ -20,8 +21,18 @@ const CheckoutTemplate = () => {
                 <span className="mt-px block small:hidden">Back</span>
               </a>
             </Link>
-            <Link href="/">
-              <a className="text-xl-semi">ACME</a>
+            <Link href="/" passHref>
+              <Heading
+                as="h2"
+                size="lg"
+                noOfLines={1}
+                color="brand.400"
+                style={{
+                  fontFamily: `'IM Fell Double Pica', sans-serif`,
+                }}
+              >
+                Y&apos;s Recipes
+              </Heading>
             </Link>
             <div className="flex-1 basis-0" />
           </nav>
