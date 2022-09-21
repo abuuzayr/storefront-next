@@ -18,6 +18,11 @@ const LineItemPrice = ({
   style = "default",
 }: LineItemPriceProps) => {
   const hasReducedPrice = variant.calculated_price < variant.original_price
+  const calculatedPrice = formatAmount({
+    amount: variant.calculated_price * quantity,
+    region: region,
+    includeTaxes: false,
+  })
 
   return (
     <div className="flex flex-col text-gray-700 text-right">
@@ -26,11 +31,7 @@ const LineItemPrice = ({
           "text-rose-600": hasReducedPrice,
         })}
       >
-        {formatAmount({
-          amount: variant.calculated_price * quantity,
-          region: region,
-          includeTaxes: false,
-        })}
+        {(variant.calculated_price * quantity) === 0 ? "FREE" : calculatedPrice}
       </span>
       {hasReducedPrice && (
         <>
