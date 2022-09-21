@@ -96,19 +96,31 @@ const CartDropdown = () => {
                               <button
                                 className="flex items-center gap-x-1 text-gray-500"
                                 onClick={async () => {
-                                  const response = await contentfulClient.getEntries({
-                                    content_type: "product",
-                                    limit: 1,
-                                    "fields.medusaId": item.variant.product.id,
-                                  })
-                                  const product = response.items.length ? response.items[0].fields : null
+                                  const response =
+                                    await contentfulClient.getEntries({
+                                      content_type: "product",
+                                      limit: 1,
+                                      "fields.medusaId":
+                                        item.variant.product.id,
+                                    })
+                                  const product = response.items.length
+                                    ? response.items[0].fields
+                                    : null
                                   const additionalItems = product
                                     ? [
-                                        ...(product.freeGifts ? product.freeGifts : []),
-                                        ...(product.addOnProducts ? product.addOnProducts : []),
+                                        ...(product.freeGifts
+                                          ? product.freeGifts
+                                          : []),
+                                        ...(product.addOnProducts
+                                          ? product.addOnProducts
+                                          : []),
                                       ]
                                     : []
-                                  deleteItem(item.id, item.quantity, additionalItems)
+                                  deleteItem(
+                                    item.id,
+                                    item.quantity,
+                                    additionalItems
+                                  )
                                 }}
                               >
                                 <Trash size={14} />
