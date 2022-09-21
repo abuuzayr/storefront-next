@@ -12,19 +12,24 @@ import {
   Alert,
   AlertTitle,
   AlertDescription,
+  Checkbox,
+  Stack,
+  Grid,
 } from "@chakra-ui/react"
 import { useProductActions } from "@lib/context/product-context"
 import useProductPrice from "@lib/hooks/use-product-price"
 import OptionSelect from "@modules/products/components/option-select"
-import Link from "next/link"
 import React, { ReactNode, useEffect, useMemo, useState } from "react"
 import { Product } from "types/medusa"
 import contentfulClient from "@lib/util/contentful-client"
 import { FaHeart, FaRegHeart } from "react-icons/fa"
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer"
-import { INLINES, BLOCKS, MARKS, Document } from "@contentful/rich-text-types"
+import { INLINES, BLOCKS, MARKS } from "@contentful/rich-text-types"
 import { FaArrowDown, FaArrowUp } from "react-icons/fa"
 import { useWishlist } from "@lib/hooks/use-wishlist"
+import Thumbnail from "@modules/products/components/thumbnail"
+import { useCart, formatAmount } from "medusa-react"
+import { medusaClient } from "@lib/config"
 
 type ProductActionsProps = {
   product: Product
@@ -65,11 +70,74 @@ const renderOptions = {
   },
 }
 
+const AddonCheckbox = ({ product, selected, setSelected, cart }: any) => {
+  const [variant, setVariant] = useState<any>()
+  const thumbnail = product.fields.thumbnail?.fields.file.url
+
+  useEffect(() => {
+    async function getCheapestVariant() {
+      // Get all product variants
+      const variants = await medusaClient.products.variants
+        .list({ id: product.fields.variants.map((v: any) => v.sys.id) })
+        .then(({ variants }) => variants)
+      variants.sort((a, b) => a.prices[0].amount - b.prices[0].amount)
+      setVariant(variants[0])
+    }
+    if (!variant) getCheapestVariant()
+  }, [variant, product.fields.variants])
+
+  if (!variant) return null
+
+  return (
+    <Box key={product.sys.id}>
+      <Checkbox
+        onChange={(e) => {
+          if (e.target.checked) {
+            if (!selected.includes(variant.id)) {
+              setSelected([...selected, variant.id])
+            }
+          } else {
+            if (selected.includes(variant.id)) {
+              const withoutSelection = selected.filter(
+                (addon: any) => addon !== variant.id
+              )
+              setSelected(withoutSelection)
+            }
+          }
+        }}
+        value={variant.id}
+        w="full"
+      >
+        <Grid
+          templateColumns={"1fr 3fr 1fr"}
+          gap={6}
+          alignItems="center"
+          justifyContent="end"
+          mx={4}
+        >
+          {thumbnail ? (
+            <Thumbnail thumbnail={`https:${thumbnail}`} size="full" />
+          ) : (
+            <></>
+          )}
+          <Text>{product.fields.title}</Text>
+          <Text>{cart?.region ? formatAmount({
+            amount: variant.prices[0].amount,
+            region: cart?.region
+          }) : ""}</Text>
+        </Grid>
+      </Checkbox>
+    </Box>
+  )
+}
+
 const ProductActions: React.FC<ProductActionsProps> = ({ product }) => {
   const { updateOptions, addToCart, options, inStock, variant } =
     useProductActions()
   const [contentfulData, setContentfulData] = useState<any>()
   const { wishlist, actions } = useWishlist()
+  const [addonsSelected, setAddonsSelected] = useState<string[]>([])
+  const { cart } = useCart()
 
   useEffect(() => {
     async function getContentfulData() {
@@ -78,10 +146,14 @@ const ProductActions: React.FC<ProductActionsProps> = ({ product }) => {
         limit: 1,
         "fields.medusaId": product.id,
       })
-      setContentfulData(response.items[0].fields)
+      if (response.items.length) setContentfulData(response.items[0].fields)
     }
     getContentfulData()
   }, [product.id])
+
+  useEffect(() => {
+    if (addonsSelected.length) console.log(addonsSelected)
+  }, [addonsSelected])
 
   const price = useProductPrice({ id: product.id, variantId: variant?.id })
 
@@ -94,6 +166,15 @@ const ProductActions: React.FC<ProductActionsProps> = ({ product }) => {
   const isInWishlist = wishlist.items ? wishlist.items
     .map((item) => item?.product_id)
     .includes(product.id) : false
+
+  let additionalItems =
+    contentfulData && contentfulData.freeGifts ? contentfulData.freeGifts : []
+
+  if (additionalItems.length) {
+    additionalItems = additionalItems.map(
+      (item: any) => item.fields.variants[0].sys.id
+    )
+  }
 
   return (
     <div className="flex flex-col gap-y-2">
@@ -158,7 +239,7 @@ const ProductActions: React.FC<ProductActionsProps> = ({ product }) => {
       </Box>
 
       <Button
-        onClick={addToCart}
+        onClick={() => addToCart([...additionalItems, ...addonsSelected])}
         bg="brand.400"
         color="white"
         borderRadius={0}
@@ -207,6 +288,24 @@ const ProductActions: React.FC<ProductActionsProps> = ({ product }) => {
         )}
         {isInWishlist ? `从心愿单中移除` : `加入願望清單`}
       </Button>
+
+      {cart &&
+        contentfulData &&
+        contentfulData.addOnProducts &&
+        contentfulData.addOnProducts.length && (
+          <Stack mt={8}>
+            <Text color="brand.400">插件:</Text>
+            {contentfulData.addOnProducts.map((product: any) => (
+              <AddonCheckbox
+                cart={cart}
+                key={product.sys.id}
+                product={product}
+                selected={addonsSelected}
+                setSelected={setAddonsSelected}
+              />
+            ))}
+          </Stack>
+        )}
 
       {contentfulData && (
         <>
