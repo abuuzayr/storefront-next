@@ -56,7 +56,7 @@ const RelatedProducts = ({ data }: RelatedProductsProps) => {
           }` : ''
           if (cart?.region) {
             priceStr = formatAmount({
-              amount: price.amount,
+              amount: price?.amount || 0,
               region: cart.region,
             })
             if (originalPriceStr) {

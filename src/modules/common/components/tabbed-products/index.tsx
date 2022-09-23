@@ -132,7 +132,7 @@ const TabbedProducts = ({ data }: { data: any }) => {
                     : ""
                   if (cart?.region && price) {
                     priceStr = formatAmount({
-                      amount: price.amount,
+                      amount: price?.amount || 0,
                       region: cart.region,
                     })
                     if (originalPriceStr) {
