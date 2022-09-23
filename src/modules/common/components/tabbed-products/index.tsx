@@ -128,7 +128,7 @@ const TabbedProducts = ({ data }: { data: any }) => {
                     ? `${price.currency_code.toUpperCase()}${price.amount}`
                     : ""
                   let originalPriceStr = product.originalPrice
-                    ? `${price.currency_code.toUpperCase()}${product.originalPrice}`
+                    ? `${price?.currency_code.toUpperCase() || "HKD"}${product.originalPrice}`
                     : ""
                   if (cart?.region && price) {
                     priceStr = formatAmount({

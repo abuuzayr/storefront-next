@@ -203,7 +203,7 @@ const PayPalPaymentButton = ({
     <PayPalScriptProvider
       options={{
         "client-id": PAYPAL_CLIENT_ID,
-        currency: cart?.region.currency_code.toUpperCase(),
+        currency: cart?.region?.currency_code.toUpperCase() || "HKD",
         intent: "authorize",
       }}
     >
