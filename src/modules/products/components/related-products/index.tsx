@@ -51,9 +51,7 @@ const RelatedProducts = ({ data }: RelatedProductsProps) => {
           }
           const price = fields.variants[0].fields.prices[0] 
           let priceStr = price ? `${price.currency_code.toUpperCase()}${price.amount}` : ''
-          let originalPriceStr = fields.originalPrice ? `${price?.currency_code.toUpperCase() || "HKD"}${
-            fields.originalPrice
-          }` : ''
+          let originalPriceStr = ''
           if (cart?.region) {
             priceStr = formatAmount({
               amount: price?.amount || 0,

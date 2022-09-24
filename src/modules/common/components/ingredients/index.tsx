@@ -76,8 +76,8 @@ const Ingredients = ({ data }: { data: any }) => {
         <GridItem colSpan={1}>
           <Center height="100%">
             <Image
-              alt={data.productImage.fields.title}
-              src={`https:${data.productImage.fields.file.url}`}
+              alt={data.productImage?.fields?.title || ""}
+              src={`https:${data.productImage?.fields?.file?.url || ""}`}
               height={384}
               width={384}
             />
