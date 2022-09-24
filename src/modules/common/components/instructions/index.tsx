@@ -42,8 +42,8 @@ const Instructions = ({ data }: { data: any }) => {
       {instructions.map((i: any) => (
         <Flex key={i.sys.id} justifyContent="start" alignItems="center" maxW="xl" mt={10}>
           <Image
-            alt={i.fields.image.fields.title}
-            src={`https:${i.fields.image.fields.file.url}`}
+            alt={i.fields?.image?.fields.title}
+            src={`https:${i.fields?.image?.fields.file.url}`}
             height={128}
             width={128}
           />
