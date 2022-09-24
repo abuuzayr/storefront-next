@@ -20,8 +20,8 @@ const Effect = ({ id }: { id: string }) => {
       {effect && (
         <Stack>
           <Image
-            alt={effect.image.fields.title}
-            src={`https:${effect.image.fields.file.url}`}
+            alt={effect.image?.fields?.title || ""}
+            src={`https:${effect.image?.fields?.file.url || ""}`}
             height={120}
             width={120}
           />

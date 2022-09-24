@@ -15,11 +15,11 @@ const Video = ({ data }: { data: any }) => {
       {showThumbnail ? (
         <Container maxW="8xl" style={{ position: "relative" }}>
           <Image
-            alt={data.coverImage.fields.title}
+            alt={data.coverImage?.fields?.title || ""}
             style={{ width: "100%", height: "100%" }}
-            src={`https:${data.coverImage.fields.file.url}`}
-            width={data.coverImage.fields.file.details.image.width}
-            height={data.coverImage.fields.file.details.image.height}
+            src={`https:${data.coverImage?.fields?.file?.url} || ""`}
+            width={data.coverImage?.fields?.file?.details?.image?.width || 0}
+            height={data.coverImage?.fields?.file?.details?.image?.height || 0}
             loading="eager"
             priority={true}
             quality={90}

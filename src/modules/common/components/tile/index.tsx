@@ -20,8 +20,8 @@ const Tile = ({ id }: { id: string }) => {
       {data && (
         <GridItem>
           <Image
-            alt={data.image.fields.title}
-            src={`https:${data.image.fields.file.url}`}
+            alt={data?.image?.fields?.title || ""}
+            src={`https:${data?.image?.fields?.file?.url || ""}`}
             height={384}
             width={384}
           />
