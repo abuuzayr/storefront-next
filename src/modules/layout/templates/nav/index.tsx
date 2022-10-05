@@ -197,35 +197,38 @@ const Nav = () => {
                 gap={4}
                 alignItems="center"
               >
-                {leftNavData.map((nav: any) => (
-                  <GridItem textAlign="center" key={nav.sys.id}>
-                    <>
-                      <Menu>
-                        <MenuButton
-                          as={Button}
-                          rounded={"full"}
-                          variant={"link"}
-                          cursor={"pointer"}
-                          minW={0}
-                          _hover={{ textDecoration: "none" }}
-                        >
-                          {nav.fields.title}
-                          <BiChevronDown
-                            color="var(--chakra-colors-brand-400)"
-                            style={{ display: "inline" }}
-                          />
-                        </MenuButton>
-                        <MenuList>
-                          {nav.fields.items.map((item: any) => (
-                            <MenuItem key={item.sys.id}>
-                              <ResolvedLink id={item.sys.id} />
-                            </MenuItem>
-                          ))}
-                        </MenuList>
-                      </Menu>
-                    </>
-                  </GridItem>
-                ))}
+                {leftNavData.map((nav: any) => {
+                  if (!nav) return null
+                  return (
+                    <GridItem textAlign="center" key={nav.sys.id}>
+                      <>
+                        <Menu>
+                          <MenuButton
+                            as={Button}
+                            rounded={"full"}
+                            variant={"link"}
+                            cursor={"pointer"}
+                            minW={0}
+                            _hover={{ textDecoration: "none" }}
+                          >
+                            {nav.fields.title}
+                            <BiChevronDown
+                              color="var(--chakra-colors-brand-400)"
+                              style={{ display: "inline" }}
+                            />
+                          </MenuButton>
+                          <MenuList>
+                            {nav.fields.items.map((item: any) => (
+                              <MenuItem key={item.sys.id}>
+                                <ResolvedLink id={item.sys.id} />
+                              </MenuItem>
+                            ))}
+                          </MenuList>
+                        </Menu>
+                      </>
+                    </GridItem>
+                  )
+                })}
               </Grid>
             )}
           </GridItem>
