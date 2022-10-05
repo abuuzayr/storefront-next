@@ -16,7 +16,7 @@ const Effects = ({ data }: { data: any }) => {
         const effects = data.effects.slice(i * 3, i * 3 + 3)
         const cols = effects.length === 3 ? 3 : effects.length
         return (
-          <SimpleGrid columns={cols} spacing={20} width="100%" maxW="7xl" key={i} mt={24}>
+          <SimpleGrid columns={cols} spacing={[5, 5, 20]} width="100%" maxW="7xl" key={i} mt={24}>
             {effects.map((effect: any) => (
               <Effect id={effect.sys.id} key={effect.sys.id} />
             ))}
