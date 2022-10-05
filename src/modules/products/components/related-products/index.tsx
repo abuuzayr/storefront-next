@@ -36,7 +36,7 @@ const RelatedProducts = ({ data }: RelatedProductsProps) => {
       <Heading as="h3" fontSize={42} color="brand.400" fontWeight="400">
         你或許會喜歡
       </Heading>
-      <SimpleGrid columns={products.length < 4 ? products.length : 4}>
+      <SimpleGrid columns={[1, 2, products.length < 4 ? products.length : 4]}>
       {products
         .map(({ fields }) => {
           let height = 0
