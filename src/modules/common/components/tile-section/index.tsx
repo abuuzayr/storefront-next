@@ -13,7 +13,7 @@ const TileSection = ({ data }: { data: any }) => {
         {data.subtitle}
       </Text>
       <Separator />
-      <SimpleGrid columns={3} spacing={20}>
+      <SimpleGrid columns={[1, 1, 3]} spacing={20}>
         {data.tiles?.map((tile: any) => (
           <Tile key={tile.sys.id} id={tile.sys.id} />
         ))}
