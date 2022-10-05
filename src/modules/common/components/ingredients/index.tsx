@@ -47,13 +47,13 @@ const Ingredients = ({ data }: { data: any }) => {
         {data.subtitle}
       </Text>
       <Separator />
-      <Grid templateColumns="repeat(7, 1fr)" gap={6} width="100%">
-        <GridItem colSpan={3}>
+      <Grid templateColumns={["repeat(1, 1fr)", "repeat(2, 1fr)", "repeat(7, 1fr)"]} gap={6} width="100%">
+        <GridItem colSpan={[1, 1, 3]}>
           {firstCol.map((i: any) => (
             <Flex
               key={i.sys.id}
               alignItems="center"
-              width="80%"
+              width={["100%", "100%", "80%"]}
               marginLeft="auto"
             >
               <Image
@@ -73,7 +73,7 @@ const Ingredients = ({ data }: { data: any }) => {
             </Flex>
           ))}
         </GridItem>
-        <GridItem colSpan={1}>
+        <GridItem colSpan={1} display={["none", "none", "block"]}>
           <Center height="100%">
             <Image
               alt={data.productImage?.fields?.title || ""}
@@ -83,9 +83,9 @@ const Ingredients = ({ data }: { data: any }) => {
             />
           </Center>
         </GridItem>
-        <GridItem colSpan={3}>
+        <GridItem colSpan={[1, 1, 3]}>
           {secondCol.map((i: any) => (
-            <Flex key={i.sys.id} alignItems="center" width="80%">
+            <Flex key={i.sys.id} alignItems="center" width={["100%", "100%", "80%"]}>
               <Image
                 alt={i.fields?.image?.fields?.title}
                 src={`https:${i.fields?.image?.fields?.file.url}`}
