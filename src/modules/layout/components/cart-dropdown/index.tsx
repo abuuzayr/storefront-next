@@ -31,7 +31,20 @@ const CartDropdown = () => {
                 size={24}
                 style={{ color: "var(--chakra-colors-brand-400)" }}
               />
-              {/* <Text fontSize="xs">{`(${totalItems})`}</Text> */}
+              {totalItems ? 
+              <Text
+                fontSize="md"
+                borderRadius="100%"
+                bgColor="brand.400"
+                color="white"
+                px="8px"
+                py="1px"
+                position="absolute"
+                marginLeft={8}
+              >
+                {totalItems}
+              </Text> : null
+              }
             </Flex>
           </Popover.Button>
         </Link>
