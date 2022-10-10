@@ -5,9 +5,16 @@ import Input from "@modules/common/components/input"
 import { useMeCustomer } from "medusa-react"
 import AddressSelect from "../address-select"
 import CountrySelect from "../country-select"
+import Checkbox from "@modules/common/components/checkbox"
+import { useState } from "react"
 
 const ShippingAddress = () => {
   const { customer } = useMeCustomer()
+  const [emailChecked, setEmailChecked] = useState(false)
+
+  const toggleEmailChecked = () => {
+    setEmailChecked(!emailChecked)
+  }
   return (
     <div>
       {customer && (customer.shipping_addresses?.length || 0) > 0 && (
@@ -21,8 +28,11 @@ const ShippingAddress = () => {
       <ConnectForm<CheckoutFormValues>>
         {({ register, formState: { errors, touchedFields } }) => (
           <div className="grid grid-cols-1 gap-y-2">
+            <div className="text-xl flex items-center gap-x-4 pb-4 pt-8 text-gray-500">
+              顧客資料 Client Information
+            </div>
             <Input
-              label="Email"
+              label="電郵地址，例子. example@email.com"
               {...register("email", {
                 required: "Email is required",
                 pattern: emailRegex,
@@ -31,9 +41,19 @@ const ShippingAddress = () => {
               errors={errors}
               touched={touchedFields}
             />
+            <div className="mb-4" />
+
+            <Checkbox
+              label="是，接收 Y’s RECIPES 最新產品 、優惠及化妝美容資訊 。 "
+              checked={emailChecked}
+              onChange={toggleEmailChecked}
+            />
+            <div className="text-xl flex items-center gap-x-4 pb-4 pt-8 text-gray-500">
+              送貨資料 Delivery Information
+            </div>
             <div className="grid grid-cols-2 gap-x-2">
               <Input
-                label="First name"
+                label="First Name 名字"
                 {...register("shipping_address.first_name", {
                   required: "First name is required",
                 })}
@@ -42,7 +62,7 @@ const ShippingAddress = () => {
                 touched={touchedFields}
               />
               <Input
-                label="Last name"
+                label="Last Name 姓氏"
                 {...register("shipping_address.last_name", {
                   required: "Last name is required",
                 })}
@@ -51,15 +71,15 @@ const ShippingAddress = () => {
                 touched={touchedFields}
               />
             </div>
-            <Input
+            {/* <Input
               label="Company"
               {...register("shipping_address.company")}
               autoComplete="organization"
               errors={errors}
               touched={touchedFields}
-            />
+            /> */}
             <Input
-              label="Address"
+              label="住址 Address / 辦公室 / 公寓"
               {...register("shipping_address.address_1", {
                 required: "Address is required",
               })}
@@ -68,15 +88,15 @@ const ShippingAddress = () => {
               touched={touchedFields}
             />
             <Input
-              label="Apartments, suite, etc."
+              label="街道 Street"
               {...register("shipping_address.address_2")}
               autoComplete="address-line2"
               errors={errors}
               touched={touchedFields}
             />
-            <div className="grid grid-cols-[122px_1fr] gap-x-2">
+            <div className="grid grid-cols-[200px_1fr] gap-x-2">
               <Input
-                label="Postal code"
+                label="Postal code 邮政编码"
                 {...register("shipping_address.postal_code", {
                   required: "Postal code is required",
                 })}
@@ -85,7 +105,7 @@ const ShippingAddress = () => {
                 touched={touchedFields}
               />
               <Input
-                label="City"
+                label="City 城市"
                 {...register("shipping_address.city", {
                   required: "City is required",
                 })}
@@ -102,15 +122,15 @@ const ShippingAddress = () => {
               errors={errors}
               touched={touchedFields}
             />
-            <Input
+            {/* <Input
               label="State / Province"
               {...register("shipping_address.province")}
               autoComplete="address-level1"
               errors={errors}
               touched={touchedFields}
-            />
+            /> */}
             <Input
-              label="Phone"
+              label="聯絡電話 Phone"
               {...register("shipping_address.phone")}
               autoComplete="tel"
               errors={errors}
