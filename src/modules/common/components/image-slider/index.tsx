@@ -49,10 +49,10 @@ const ImageSlider = ({ data }: { data: any }) => {
         {data.images.map((img: any) => (
           <div key={img.sys.id} style={{ position: "relative" }}>
             <Image
-              alt={img.fields.title}
-              width={img.fields.file.details.image.width}
-              height={img.fields.file.details.image.height}
-              src={`https:${img.fields.file.url}`}
+              alt={img?.fields?.title}
+              width={img?.fields?.file?.details?.image?.width}
+              height={img?.fields?.file?.details?.image?.height}
+              src={`https:${img?.fields?.file?.url}`}
               loading="eager"
               priority={true}
               quality={90}

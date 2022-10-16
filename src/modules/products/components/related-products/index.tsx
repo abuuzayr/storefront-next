@@ -73,14 +73,14 @@ const RelatedProducts = ({ data }: RelatedProductsProps) => {
               <Box p={10}>
                 {fields.thumbnail && (
                   <Image
-                    alt={fields.thumbnail.fields.title}
-                    key={fields.thumbnail.fields.title}
+                    alt={fields?.thumbnail?.fields?.title}
+                    key={fields?.thumbnail?.fields?.title}
                     style={{
                       maxHeight: 300,
                     }}
                     width={width}
                     height={height}
-                    src={`https:${fields.thumbnail.fields.file.url}`}
+                    src={`https:${fields?.thumbnail?.fields?.file?.url}`}
                   />
                 )}
                 <Text size="sm" mt={4}>
@@ -94,7 +94,7 @@ const RelatedProducts = ({ data }: RelatedProductsProps) => {
                   ) : (
                     <></>
                   )}
-                  {fields.variants.length ? (
+                  {fields.variants?.length ? (
                     <Text size="sm" mt={2} color="brand.400">
                       {priceStr}
                     </Text>

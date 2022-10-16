@@ -6,9 +6,9 @@ const Hero = ({ data }: { data: any }) => {
     return (
       <div className="h-[90vh] w-full relative">
         <Image
-          alt={fields.title}
+          alt={fields?.title}
           style={{ width: "100%", height: "100%" }}
-          src={`https:${fields.file.url}`}
+          src={`https:${fields?.file?.url}`}
           layout="fill"
           loading="eager"
           priority={true}

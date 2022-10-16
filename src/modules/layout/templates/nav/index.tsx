@@ -162,13 +162,13 @@ const Nav = () => {
                   <h2>
                     <AccordionButton>
                       <Box flex="1" textAlign="left">
-                        {nav.fields.title}
+                        {nav?.fields?.title}
                       </Box>
                       <AccordionIcon />
                     </AccordionButton>
                   </h2>
                   <AccordionPanel pb={4}>
-                    {nav.fields.items.map((item: any) => (
+                    {nav?.fields?.items?.map((item: any) => (
                       <ResolvedLink key={item.sys.id} id={item.sys.id} />
                     ))}
                   </AccordionPanel>
@@ -211,14 +211,14 @@ const Nav = () => {
                             minW={0}
                             _hover={{ textDecoration: "none" }}
                           >
-                            {nav.fields.title}
+                            {nav?.fields?.title}
                             <BiChevronDown
                               color="var(--chakra-colors-brand-400)"
                               style={{ display: "inline" }}
                             />
                           </MenuButton>
                           <MenuList>
-                            {nav.fields.items.map((item: any) => (
+                            {nav?.fields?.items?.map((item: any) => (
                               <MenuItem key={item.sys.id}>
                                 <ResolvedLink id={item.sys.id} />
                               </MenuItem>
@@ -258,14 +258,14 @@ const Nav = () => {
                         minW={0}
                         _hover={{ textDecoration: "none" }}
                       >
-                        {nav.fields.title}
+                        {nav?.fields?.title}
                         <BiChevronDown
                           color="var(--chakra-colors-brand-400)"
                           style={{ display: "inline" }}
                         />
                       </MenuButton>
                       <MenuList>
-                        {nav.fields.items.map((item: any) => (
+                        {nav?.fields?.items?.map((item: any) => (
                           <MenuItem key={item.sys.id}>
                             <ResolvedLink id={item.sys.id} />
                           </MenuItem>

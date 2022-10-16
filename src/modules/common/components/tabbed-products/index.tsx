@@ -151,14 +151,14 @@ const TabbedProducts = ({ data }: { data: any }) => {
                       <Box p={10} cursor="pointer">
                         {product.thumbnail && (
                           <Image
-                            alt={product.thumbnail.fields.title}
-                            key={product.thumbnail.fields.title}
+                            alt={product?.thumbnail?.fields?.title}
+                            key={product?.thumbnail?.fields?.title}
                             style={{
                               maxHeight: 300,
                             }}
                             width={width}
                             height={height}
-                            src={`https:${product.thumbnail.fields.file.url}`}
+                            src={`https:${product?.thumbnail?.fields?.file?.url}`}
                           />
                         )}
                         <Text size="sm" mt={4}>

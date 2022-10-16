@@ -120,7 +120,7 @@ const AddonCheckbox = ({ product, selected, setSelected, cart }: any) => {
           ) : (
             <></>
           )}
-          <Text>{product.fields.title}</Text>
+          <Text>{product?.fields?.title}</Text>
           <Text>{cart?.region ? formatAmount({
             amount: variant.prices[0].amount,
             region: cart?.region
@@ -340,15 +340,15 @@ const ProductActions: React.FC<ProductActionsProps> = ({ product }) => {
                           <FaArrowDown size={14} style={{ color: "gray" }} />
                         )}
                         <Heading as="h3" color="gray" fontSize={14} ml={4}>
-                          {desc.fields.title}
+                          {desc?.fields?.title}
                         </Heading>
                       </AccordionButton>
                       <AccordionPanel pl={7} py={5}>
                         <Heading as="h4" fontSize={14} color="brand.400" pb={4}>
-                          {desc.fields.subtitle}
+                          {desc?.fields?.subtitle}
                         </Heading>
                         {documentToReactComponents(
-                          desc.fields.richText,
+                          desc?.fields?.richText,
                           renderOptions
                         )}
                       </AccordionPanel>

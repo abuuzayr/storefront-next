@@ -42,17 +42,17 @@ const Instructions = ({ data }: { data: any }) => {
       {instructions.map((i: any) => (
         <Flex key={i.sys.id} justifyContent="start" alignItems="center" maxW="xl" mt={10}>
           <Image
-            alt={i.fields?.image?.fields.title}
-            src={`https:${i.fields?.image?.fields.file.url}`}
+            alt={i.fields?.image?.fields?.title}
+            src={`https:${i.fields?.image?.fields?.file?.url}`}
             height={128}
             width={128}
           />
           <Stack width="100%" ml={12}>
             <Text color="brand.400" textAlign="left" size="xl">
-              {i.fields.title}
+              {i?.fields?.title}
             </Text>
             <Text textAlign="left" size="md">
-              {i.fields.subtitle}
+              {i?.fields?.subtitle}
             </Text>
           </Stack>
         </Flex>
