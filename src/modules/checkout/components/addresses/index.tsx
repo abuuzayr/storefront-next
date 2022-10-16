@@ -16,7 +16,7 @@ const Addresses = () => {
   return (
     <div className="bg-white">
       {isEdit ? (
-        <div className="px-8 pb-8">
+        <div className="px-3 md:px-8 pb-8">
           <ShippingAddress />
           <div className="mt-6">
             <Checkbox
