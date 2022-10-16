@@ -8,6 +8,8 @@ import { useCart } from "medusa-react"
 import React, { useEffect } from "react"
 import { useInView } from "react-intersection-observer"
 import { useInfiniteQuery } from "react-query"
+import { GoSettings } from "react-icons/go"
+import { Button, Menu, MenuButton, MenuItem, MenuList, Text } from "@chakra-ui/react"
 
 type CollectionTemplateProps = {
   collection: {
@@ -55,8 +57,40 @@ const CollectionTemplate: React.FC<CollectionTemplateProps> = ({
 
   return (
     <div className="content-container py-6">
-      <div className="mb-8 text-2xl-semi">
-        <h1>{collection.title}</h1>
+      <div className="flex mb-8 items-center">
+        <h1
+          style={{ color: "var(--chakra-colors-brand-400)" }}
+          className=" text-2xl-regular"
+        >
+          {collection.title}
+        </h1>
+        <div className="ml-auto">
+          <Menu>
+            <MenuButton
+              as={Button}
+              variant="ghost"
+              bg="white"
+              _hover={{ bg: "white" }}
+              _active={{
+                bg: "white",
+              }}
+              p={0}
+            >
+              <div className="flex items-center">
+                <GoSettings size={20} color="var(--chakra-colors-brand-400)" />
+                <Text color="brand.400" ml={2}>
+                  篩選器
+                </Text>
+              </div>
+            </MenuButton>
+            <MenuList>
+              <MenuItem>上架時間: 由新到舊</MenuItem>
+              <MenuItem>上架時間: 由舊到新</MenuItem>
+              <MenuItem>價格: 由高至低</MenuItem>
+              <MenuItem>價格: 由低至高</MenuItem>
+            </MenuList>
+          </Menu>
+        </div>
       </div>
       <ul className="grid grid-cols-2 small:grid-cols-3 medium:grid-cols-4 gap-x-4 gap-y-8">
         {previews.map((p) => (
