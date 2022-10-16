@@ -1,7 +1,8 @@
 import clsx from "clsx"
-import React from "react"
+import React, { useState, useEffect } from "react"
 import { useHits, UseHitsProps } from "react-instantsearch-hooks-web"
 import { ProductHit } from "../hit"
+import { medusaClient } from "@lib/config"
 
 type HitsProps<THit> = React.ComponentProps<"div"> &
   UseHitsProps & {
@@ -14,6 +15,18 @@ const DesktopHits = ({
   ...props
 }: HitsProps<ProductHit>) => {
   const { hits } = useHits(props)
+  const [filteredHits, setFilteredHits] = useState(hits)
+
+  useEffect(() => {
+    async function getHitsData() {
+      const hitsData = await medusaClient.products
+        .list({ limit: 100 })
+        .then(({ products }) => products)
+      const visibleProducts = hitsData.filter(product => !product.tags.find(tag => tag.value === 'hidden')).map(p => p.id)
+      setFilteredHits(filteredHits.filter(hit => visibleProducts.includes((hit as unknown as ProductHit).id)))
+    }
+    getHitsData()
+  }, [hits, filteredHits])
 
   return (
     <div
@@ -27,7 +40,7 @@ const DesktopHits = ({
       )}
     >
       <div className="grid grid-cols-1">
-        {hits.map((hit, index) => (
+        {hits.filter(hit => !(hit as unknown as ProductHit)?.title?.toUpperCase()?.includes('DO NOT USE')).map((hit, index) => (
           <li key={index} className="list-none">
             <Hit hit={hit as unknown as ProductHit} />
           </li>
