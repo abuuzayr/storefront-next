@@ -26,7 +26,7 @@ const Checkbox: React.FC<CheckboxProps> = ({
       >
         {checked ? "✓" : null}
       </div>
-      <span>{label}</span>
+      <span className="text-left leading-none">{label}</span>
     </button>
   )
 }
