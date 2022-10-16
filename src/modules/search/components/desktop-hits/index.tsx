@@ -22,8 +22,8 @@ const DesktopHits = ({
       const hitsData = await medusaClient.products
         .list({ limit: 100 })
         .then(({ products }) => products)
-      const visibleProducts = hitsData.filter(product => !product.tags.find(tag => tag.value === 'hidden')).map(p => p.id)
-      setFilteredHits(filteredHits.filter(hit => visibleProducts.includes((hit as unknown as ProductHit).id)))
+      const hiddenProducts = hitsData.filter(product => product.tags.find(tag => tag.value === 'hidden')).map(p => p.handle)
+      setFilteredHits(filteredHits.filter(hit => !hiddenProducts.includes((hit as unknown as ProductHit).handle)))
     }
     getHitsData()
   }, [hits, filteredHits])
