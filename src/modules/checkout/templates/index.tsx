@@ -15,8 +15,7 @@ const CheckoutTemplate = () => {
             <Link href="/cart">
               <a className="text-small-semi text-gray-700 flex items-center gap-x-2 uppercase flex-1 basis-0">
                 <ChevronDown className="rotate-90" size={16} />
-                <span className="mt-px hidden small:block">返回網店</span>
-                <span className="mt-px block small:hidden">Back</span>
+                <span className="mt-px">返回網店</span>
               </a>
             </Link>
             <Link href="/" passHref>
@@ -37,7 +36,7 @@ const CheckoutTemplate = () => {
         </div>
         <div className="relative">
           <CheckoutLoader />
-          <div className="grid grid-cols-1 small:grid-cols-[1fr_416px] gap-y-8 content-container gap-x-8 py-12">
+          <div className="grid grid-cols-1 small:grid-cols-[1fr_416px] gap-y-8 content-container gap-x-8 py-3 px-3 md:py-12">
             <CheckoutForm />
             <CheckoutSummary />
           </div>
