@@ -3,11 +3,13 @@ import { useCollections } from "medusa-react"
 import { ChangeEvent } from "react"
 
 type RefinementListProps = {
+  title?: string
   refinementList: StoreGetProductsParams
   setRefinementList: (refinementList: StoreGetProductsParams) => void
 }
 
 const RefinementList = ({
+  title,
   refinementList,
   setRefinementList,
 }: RefinementListProps) => {
@@ -46,27 +48,32 @@ const RefinementList = ({
 
   return (
     <div>
-      <div className="px-8 py-4  small:pr-0 small:pl-8 small:min-w-[250px]">
-        <div className="flex gap-x-3 small:flex-col small:gap-y-3">
-          <span className="text-base-semi">Collections</span>
-          <ul className="text-base-regular flex items-center gap-x-4 small:grid small:grid-cols-1 small:gap-y-2">
+      <div className="py-8">
+        <h1
+          style={{ color: "var(--chakra-colors-brand-400)" }}
+          className="text-xl-regular mb-3"
+        >
+          {title ? title : "店铺"}
+        </h1>
+          <div className="text-gray-500 flex flex-wrap gap-4 gap-y-1">
             {collections?.map((c) => (
-              <li key={c.id}>
-                <label className="flex items-center gap-x-2">
+              <div key={c.id}>
+                <label className="cursor-pointer" style={{ color: refinementList.collection_id?.includes(
+                      c.id
+                    ) ? "var(--chakra-colors-brand-400)" : "#6b7280" }}>
                   <input
                     type="checkbox"
                     defaultChecked={refinementList.collection_id?.includes(
                       c.id
                     )}
                     onChange={(e) => handleCollectionChange(e, c.id)}
-                    className="accent-amber-200"
+                    className="accent-amber-200 hidden"
                   />
                   {c.title}
                 </label>
-              </li>
+              </div>
             ))}
-          </ul>
-        </div>
+          </div>
       </div>
     </div>
   )
