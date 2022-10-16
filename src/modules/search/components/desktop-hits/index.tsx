@@ -20,10 +20,10 @@ const DesktopHits = ({
   useEffect(() => {
     async function getHitsData() {
       const hitsData = await medusaClient.products
-        .list({ limit: 100 })
+        .list({ limit: 1000 })
         .then(({ products }) => products)
       const hiddenProducts = hitsData.filter(product => product.tags.find(tag => tag.value === 'hidden')).map(p => p.handle)
-      setFilteredHits(filteredHits.filter(hit => !hiddenProducts.includes((hit as unknown as ProductHit).handle)))
+      setFilteredHits(hits.filter(hit => !hiddenProducts.includes((hit as unknown as ProductHit).handle)))
     }
     getHitsData()
   }, [hits, filteredHits])
