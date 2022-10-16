@@ -45,7 +45,7 @@ const List = ({ id }: { id: string }) => {
   return (
     <>
       <ListHeader>{menu.title}</ListHeader>
-      {menu.items.map((item: any) => (
+      {menu.items && menu.items.length && menu.items.map((item: any) => (
         <MenuItem id={item.sys.id} key={item.sys.id} />
       ))}
     </>
