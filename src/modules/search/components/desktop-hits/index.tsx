@@ -40,7 +40,7 @@ const DesktopHits = ({
       )}
     >
       <div className="grid grid-cols-1">
-        {hits.filter(hit => !(hit as unknown as ProductHit)?.title?.toUpperCase()?.includes('DO NOT USE')).map((hit, index) => (
+        {filteredHits.filter(hit => !(hit as unknown as ProductHit)?.title?.toUpperCase()?.includes('DO NOT USE')).map((hit, index) => (
           <li key={index} className="list-none">
             <Hit hit={hit as unknown as ProductHit} />
           </li>
