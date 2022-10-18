@@ -8,7 +8,7 @@ import SkeletonCollectionPage from "@modules/skeletons/templates/skeleton-collec
 import { GetStaticPaths, GetStaticProps } from "next"
 import { useRouter } from "next/router"
 import { ParsedUrlQuery } from "querystring"
-import { ReactElement } from "react"
+import { ReactElement, useEffect, useState } from "react"
 import { dehydrate, QueryClient, useQuery } from "react-query"
 import { NextPageWithLayout, PrefetchedPageProps } from "../../types/global"
 
@@ -54,6 +54,24 @@ const CollectionPage: NextPageWithLayout<PrefetchedPageProps> = ({
 }) => {
   const { query, isFallback, replace } = useRouter()
   const handle = typeof query.handle === "string" ? query.handle : ""
+  const [count, setCount] = useState<number | null>(null)
+
+  useEffect(() => {
+    async function getProductCount() {
+      const collections = await getCollections()
+      const collection = collections.find(collection => collection.handle === handle)
+      if (collection) {
+        const productCount = await medusaClient.products
+          .list({ collection_id: [collection.id] })
+          .then(({ count }) => count)
+        setCount(productCount)
+      }
+    }
+    if (count === null && handle) {
+      getProductCount()
+    }
+
+  }, [count, handle])
 
   const { data, isError, isSuccess, isLoading } = useQuery(
     ["get_collection", handle],
@@ -80,7 +98,7 @@ const CollectionPage: NextPageWithLayout<PrefetchedPageProps> = ({
     return (
       <>
         <Head title={data.title} description={`${data.title} collection`} />
-        <CollectionTemplate collection={data} />
+        <CollectionTemplate collection={data} count={count} />
       </>
     )
   }
