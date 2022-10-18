@@ -22,7 +22,9 @@ const transformProductPreview = (
     title: product.title,
     handle: product.handle,
     thumbnail: product.thumbnail,
+    createdAt: product.created_at,
     price: {
+      raw: cheapestVariant.calculated_price,
       calculated_price: formatAmount({
         amount: cheapestVariant.calculated_price,
         region: region,
