@@ -32,7 +32,7 @@ const Store: NextPageWithLayout = () => {
           </Text>
           <Separator />
         </Flex>
-        <Grid templateColumns='repeat(3, 1fr)' gap={6} mt={8} mb={24}>
+        <Grid templateColumns=['repeat(1, 1fr)', 'repeat(1, 1fr)', 'repeat(3, 1fr)'] gap={6} mt={8} mb={24}>
           {posts.map(post => (<GridItem key={post.slug}>
             <NextLink href={`/blog/${post.slug}`} passHref>
               <Link textDecoration="none" _hover={{ textDecoration: 'none' }}>
