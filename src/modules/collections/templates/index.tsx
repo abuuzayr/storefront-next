@@ -60,8 +60,6 @@ const CollectionTemplate: React.FC<CollectionTemplateProps> = ({
         const priceB: number = b.price?.raw || 0
         if (priceA === priceB) return 0
         if (!priceA && !priceB) return 0
-        if (!priceA && priceB) return -1
-        if (!priceB && priceA) return 1
         if (sortDir === 'asc') return priceA - priceB
         return priceB - priceA
       })
