@@ -97,8 +97,8 @@ export default function Footer() {
         borderColor={useColorModeValue("gray.200", "gray.700")}
       >
         <SimpleGrid
-          columns={9}
-          spacing={8}
+          columns={[5,5,9]}
+          spacing={[1,2,8]}
           maxW={"8xl"}
           px={4}
           py={8}
@@ -119,7 +119,7 @@ export default function Footer() {
       <Container as={Stack} maxW={"8xl"} py={10}>
         <SimpleGrid columns={{ base: 1, sm: 2, md: 5 }} spacing={8}>
           {data.map((area: any) => (
-            <Stack align={"flex-start"} key={area.sys.id}>
+            <Stack align={["center", "center", "flex-start"]} key={area.sys.id}>
               {area.fields.references.map((menu: any) => (
                 <List key={menu.sys.id} id={menu.sys.id} />
               ))}
@@ -134,14 +134,14 @@ export default function Footer() {
         borderColor={useColorModeValue("gray.200", "gray.700")}
       >
         <SimpleGrid
-          columns={3}
+          columns={[1, 1, 3]}
           spacing={8}
           maxW={"8xl"}
           px={4}
           py={8}
           m="0 auto"
         >
-          <Text>
+          <Text align={["center", "center", "left"]}>
             Copyright © 2014 - {new Date().getFullYear()}, Y&apos;s Recipes. All
             Rights Reserved.
           </Text>
@@ -150,7 +150,7 @@ export default function Footer() {
             <Link href={"#"}>條款及細則</Link>
             <Link href={"#"}>網站地圖</Link>
           </Stack>
-          <Stack direction={"row"} spacing={6} justifySelf="flex-end">
+          <Stack direction={"row"} spacing={6} justifySelf={["center", "center", "flex-end"]}>
             <FaFacebook color="var(--chakra-colors-brand-400)" size={24} />
             <FaInstagram color="var(--chakra-colors-brand-400)" size={24} />
             <FaYoutube color="var(--chakra-colors-brand-400)" size={24} />
