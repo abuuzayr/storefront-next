@@ -45,7 +45,7 @@ const Item = ({ item, region }: ItemProps) => {
             <span>{item.title}</span>
             <LineItemOptions variant={item.variant} />
           </div>
-          {!isHidden &&
+          {!isHidden && Array.from([...Array(item.variant.inventory_quantity)].keys()).length > 0 &&
             <NativeSelect
               value={item.quantity}
               onChange={(value) =>
@@ -87,7 +87,7 @@ const Item = ({ item, region }: ItemProps) => {
               }}
             >
               <Trash size={14} />
-              <span>Remove</span>
+              <span>刪除</span>
             </button>
           </div>
           <div>
