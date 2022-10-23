@@ -53,7 +53,7 @@ const RefinementList = ({
           style={{ color: "var(--chakra-colors-brand-400)" }}
           className="text-xl-regular mb-3"
         >
-          {title ? title : "店铺"}
+          {title ? title : "店鋪"}
         </h1>
           <div className="text-gray-500 flex flex-wrap gap-4 gap-y-1">
             {collections?.map((c) => (

@@ -8,7 +8,7 @@ type PaymentDetailsProps = {
 const PaymentDetails = ({ payments, paymentStatus }: PaymentDetailsProps) => {
   return (
     <div>
-      <h2 className="text-base-semi">Payment</h2>
+      <h2 className="text-base-semi">付款方式</h2>
       <div className="my-2">
         {payments.map((p) => {
           switch (p.provider_id) {

@@ -28,7 +28,7 @@ const CartTotals: React.FC<CartTotalsProps> = ({ cart }) => {
     <div>
       <div className="text-small-regular text-gray-700">
         <div className="flex items-center justify-between text-base-regular text-gray-900 mb-2">
-          <span>Subtotal</span>
+          <span>總金額</span>
           <span>{getAmount(subtotal)}</span>
         </div>
         <div className="flex flex-col gap-y-1">
@@ -40,22 +40,22 @@ const CartTotals: React.FC<CartTotalsProps> = ({ cart }) => {
           )}
           {!!gift_card_total && (
             <div className="flex items-center justify-between">
-              <span>Gift card</span>
+              <span>禮品卷</span>
               <span>- {getAmount(gift_card_total)}</span>
             </div>
           )}
           <div className="flex items-center justify-between">
-            <span>Shipping</span>
+            <span>運費</span>
             <span>{getAmount(shipping_total)}</span>
           </div>
           <div className="flex items-center justify-between">
-            <span>Taxes</span>
+            <span>稅</span>
             <span>{getAmount(tax_total)}</span>
           </div>
         </div>
         <div className="h-px w-full border-b border-gray-200 border-dashed my-4" />
         <div className="flex items-center justify-between text-base-regular text-gray-900 mb-2">
-          <span>Total</span>
+          <span>總金額</span>
           <span>{getAmount(total)}</span>
         </div>
       </div>

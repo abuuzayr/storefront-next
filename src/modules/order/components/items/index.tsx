@@ -37,7 +37,7 @@ const Items = ({ items, region, cartId }: ItemsProps) => {
                           </Link>
                         </h3>
                         <LineItemOptions variant={item.variant} />
-                        <span>Quantity: {item.quantity}</span>
+                        <span>數量: {item.quantity}</span>
                       </div>
                       <div className="flex justify-end">
                         <LineItemPrice

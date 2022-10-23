@@ -286,7 +286,7 @@ const ProductActions: React.FC<ProductActionsProps> = ({ product }) => {
             className="mr-2"
           />
         )}
-        {isInWishlist ? `从心愿单中移除` : `加入願望清單`}
+        {isInWishlist ? `從願望清單中移除` : `加入願望清單`}
       </Button>
 
       {cart &&

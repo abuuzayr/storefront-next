@@ -71,13 +71,13 @@ const GiftCard: React.FC<GiftCardProps> = ({ cart }) => {
   return (
     <div className="w-full bg-white p-6 flex flex-col">
       <div className="mb-4">
-        <h3 className="text-base-semi">Gift Card</h3>
+        <h3 className="text-base-semi">禮品卷</h3>
       </div>
       <div className="text-small-regular">
         {appliedGiftCard ? (
           <div className="flex items-center justify-between">
             <div>
-              <span className="text-gray-700">Code: </span>
+              <span className="text-gray-700">禮品卷碼: </span>
               <span className="font-semibold">{appliedGiftCard}</span>
             </div>
             <div>
@@ -87,7 +87,7 @@ const GiftCard: React.FC<GiftCardProps> = ({ cart }) => {
                 disabled={isLoading}
               >
                 <Trash size={16} />
-                <span className="sr-only">Remove gift card from order</span>
+                <span className="sr-only">刪除禮品卡</span>
               </button>
             </div>
           </div>
@@ -95,7 +95,7 @@ const GiftCard: React.FC<GiftCardProps> = ({ cart }) => {
           <form onSubmit={handleSubmit(onSubmit)} className="w-full">
             <div className="grid grid-cols-[1fr_80px] gap-x-2">
               <Input
-                label="Code"
+                label="禮品卷碼"
                 {...register("gift_card_code", {
                   required: "Code is required",
                 })}
@@ -108,7 +108,7 @@ const GiftCard: React.FC<GiftCardProps> = ({ cart }) => {
                   disabled={isLoading}
                   isLoading={isLoading}
                 >
-                  Apply
+                  使用
                 </Button>
               </div>
             </div>

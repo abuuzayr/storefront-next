@@ -91,13 +91,13 @@ const DiscountCode: React.FC<DiscountCodeProps> = ({ cart }) => {
   return (
     <div className="w-full bg-white flex flex-col">
       <div className="mb-4">
-        <h3 className="text-base-semi">Discount</h3>
+        <h3 className="text-base-semi">折扣</h3>
       </div>
       <div className="text-small-regular">
         {appliedDiscount ? (
           <div className="flex items-center justify-between">
             <div>
-              <span>Code: </span>
+              <span>優惠碼: </span>
               <span className="font-semibold">{appliedDiscount}</span>
             </div>
             <div>
@@ -107,7 +107,7 @@ const DiscountCode: React.FC<DiscountCodeProps> = ({ cart }) => {
                 disabled={isLoading}
               >
                 <Trash size={16} />
-                <span className="sr-only">Remove gift card from order</span>
+                <span className="sr-only">刪除禮品卡</span>
               </button>
             </div>
           </div>
@@ -115,7 +115,7 @@ const DiscountCode: React.FC<DiscountCodeProps> = ({ cart }) => {
           <form onSubmit={handleSubmit(onApply)} className="w-full">
             <div className="grid grid-cols-[1fr_80px] gap-x-2">
               <Input
-                label="Code"
+                label="優惠碼"
                 {...register("discount_code", {
                   required: "Code is required",
                 })}
@@ -127,7 +127,7 @@ const DiscountCode: React.FC<DiscountCodeProps> = ({ cart }) => {
                   disabled={isLoading}
                   isLoading={isLoading}
                 >
-                  Apply
+                  使用
                 </Button>
               </div>
             </div>

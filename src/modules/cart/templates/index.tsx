@@ -41,7 +41,7 @@ const CartTemplate = () => {
             </div>
           </div>
         ) : (
-          <div>
+          <div className="p-8 bg-white">
             {!customer && <SignInPrompt />}
             <EmptyCartMessage />
           </div>

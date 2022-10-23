@@ -52,12 +52,12 @@ const WishlistDropdown = () => {
             className="hidden small:block absolute top-[calc(100%+5px)] right-0 bg-white border border-gray-200 w-[382px] text-gray-900 z-50"
           >
             <div className="p-4 flex items-center justify-center">
-              <h3 className="text-large-semi">Wish List</h3>
+              <h3 className="text-large-semi">願望清單</h3>
             </div>
             <div className="p-0 w-96">
               {!wishlist.items || wishlist.items.length < 1 ? (
                 <Flex alignItems="center" justifyContent="center" mb={3}>
-                  <Text>Your wish list is empty</Text>
+                  <Text>暫空</Text>
                 </Flex>
               ) : (
                 <TableContainer>

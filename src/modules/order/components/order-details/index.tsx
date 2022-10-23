@@ -17,13 +17,13 @@ const OrderDetails = ({ order, showStatus }: OrderDetailsProps) => {
   return (
     <div className="p-10 border-b border.gray-200">
       <span className="text-gray-700 text-small-regular uppercase">
-        Thank you, your order was successfully placed
+        多謝付款，你的貨品已成功購買！
       </span>
-      <h1 className="mt-2 uppercase text-2xl-semi">#{order.display_id}</h1>
+      <h1 className="mt-2 uppercase text-2xl-semi">#{order.display_id} 訂單</h1>
       <span>{order.id.split("order_")[1]}</span>
       <div className="flex items-center text-gray-700 text-small-regular gap-x-4 mt-4">
         <span>{new Date(order.created_at).toDateString()}</span>
-        <span>{`${items} ${items !== 1 ? "items" : "item"}`}</span>
+        <span>{`${items} 貨品`}</span>
         {showStatus && (
           <>
             <span>{formatStatus(order.fulfillment_status)}</span>
