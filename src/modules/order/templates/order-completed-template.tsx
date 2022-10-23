@@ -35,7 +35,9 @@ const OrderCompletedTemplate: React.FC<OrderCompletedTemplateProps> = ({
             />
           </div>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 p-10">
-            <Help />
+            <div>
+              <Help />
+            </div>
             <OrderSummary order={order} />
           </div>
         </div>
