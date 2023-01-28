@@ -24,7 +24,7 @@ const OrderDetailsTemplate: React.FC<OrderDetailsTemplateProps> = ({
             region={order.region}
             cartId={order.cart_id}
           />
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 p-10 border-b border-gray-200">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 p-4 md:p-10 border-b border-gray-200">
             <PaymentDetails
               payments={order.payments}
               paymentStatus={order.payment_status}
@@ -34,7 +34,7 @@ const OrderDetailsTemplate: React.FC<OrderDetailsTemplateProps> = ({
               address={order.shipping_address}
             />
           </div>
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 p-10">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 p-4 md:p-10">
             <div>
               <Help />
             </div>

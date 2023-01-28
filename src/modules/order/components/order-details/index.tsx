@@ -15,7 +15,7 @@ const OrderDetails = ({ order, showStatus }: OrderDetailsProps) => {
   }
 
   return (
-    <div className="p-10 border-b border.gray-200">
+    <div className="p-4 md:p-10 border-b border.gray-200">
       <span className="text-gray-700 text-small-regular uppercase">
         多謝付款，你的貨品已成功購買！
       </span>
