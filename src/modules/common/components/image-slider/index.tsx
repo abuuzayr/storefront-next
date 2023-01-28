@@ -2,8 +2,8 @@ import React from "react"
 import Image from "next/image"
 import { Heading, Text, Container } from "@chakra-ui/react"
 import Separator from "../separator"
-import "react-responsive-carousel/lib/styles/carousel.min.css"
-import { Carousel } from "react-responsive-carousel"
+import 'react-multi-carousel/lib/styles.css'
+import Carousel from "react-multi-carousel"
 import { FaArrowCircleRight, FaArrowCircleLeft } from "react-icons/fa"
 
 const ImageSlider = ({ data }: { data: any }) => {
@@ -35,6 +35,21 @@ const ImageSlider = ({ data }: { data: any }) => {
     ),
   }
 
+  const responsive = {
+    desktop: {
+      breakpoint: { max: 3000, min: 1024 },
+      items: 1
+    },
+    tablet: {
+      breakpoint: { max: 1024, min: 464 },
+      items: 1
+    },
+    mobile: {
+      breakpoint: { max: 464, min: 0 },
+      items: 1
+    }
+  };
+
   return (
     <Container centerContent textAlign="center" my={10} maxW="8xl" overflow="hidden">
       <Heading as="h3" fontSize={42} color="brand.400" fontWeight="400">
@@ -45,7 +60,7 @@ const ImageSlider = ({ data }: { data: any }) => {
       </Text>
       <Separator />
       <div style={{ height: "3rem" }} />
-      <Carousel {...settings}>
+      <Carousel responsive={responsive}>
         {data.images.map((img: any) => (
           <div key={img.sys.id} style={{ position: "relative" }}>
             <Image
