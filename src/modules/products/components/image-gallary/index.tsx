@@ -1,6 +1,8 @@
 import { Image as MedusaImage } from "@medusajs/medusa"
 import Image from "next/image"
 import { useRef } from "react"
+import Carousel from "react-multi-carousel"
+import 'react-multi-carousel/lib/styles.css';
 
 type ImageGalleryProps = {
   images: MedusaImage[]
@@ -20,31 +22,24 @@ const ImageGallery = ({ images }: ImageGalleryProps) => {
     }
   }
 
+  const responsive = {
+    desktop: {
+      breakpoint: { max: 3000, min: 1024 },
+      items: 1
+    },
+    tablet: {
+      breakpoint: { max: 1024, min: 464 },
+      items: 1
+    },
+    mobile: {
+      breakpoint: { max: 464, min: 0 },
+      items: 1
+    }
+  };
+
   return (
-    <div className="flex items-start relative">
-      <div className="hidden small:flex flex-col gap-y-4 sticky top-20">
-        {images.map((image, index) => {
-          return (
-            <button
-              key={image.id}
-              className="h-14 w-12 relative border border-white"
-              onClick={() => {
-                handleScrollTo(image.id)
-              }}
-            >
-              <span className="sr-only">Go to image {index + 1}</span>
-              <Image
-                src={image.url}
-                layout="fill"
-                objectFit="cover"
-                className="absolute inset-0"
-                alt="Thumbnail"
-              />
-            </button>
-          )
-        })}
-      </div>
-      <div className="flex flex-col flex-1 small:mx-16 gap-y-4">
+    <div>
+      <Carousel responsive={responsive}>
         {images.map((image, index) => {
           return (
             <div
@@ -64,7 +59,7 @@ const ImageGallery = ({ images }: ImageGalleryProps) => {
             </div>
           )
         })}
-      </div>
+      </Carousel>
     </div>
   )
 }
