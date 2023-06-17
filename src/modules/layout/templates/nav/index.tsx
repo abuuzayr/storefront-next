@@ -234,7 +234,7 @@ const Nav = () => {
           </GridItem>
           <GridItem m="0 auto">
             <Image
-              src="/logo.png"
+              src="/logo.jpeg"
               alt="Y's Recipes logo"
               width="166"
               height="128"
